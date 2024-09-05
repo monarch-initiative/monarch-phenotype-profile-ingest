@@ -8,6 +8,9 @@
 - url: http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt
   local_name: data/genes_to_phenotype.txt
 
+- url: https://data.monarchinitiative.org/mappings/latest/mondo.sssom.tsv
+  local_name: data/mondo.sssom.tsv
+
 
 # For disease_to_phenotype
 - url: http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa

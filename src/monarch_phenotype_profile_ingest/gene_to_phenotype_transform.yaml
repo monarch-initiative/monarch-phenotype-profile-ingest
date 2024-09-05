@@ -8,7 +8,7 @@ metadata: "src/monarch_phenotype_profile_ingest/metadata.yaml"
 files:
   - 'data/genes_to_phenotype.txt'
 
-header: 'none'
+header: 0
 format: 'csv'
 delimiter: '\t'
 
@@ -26,7 +26,8 @@ edge_properties:
   - 'subject'
   - 'predicate'
   - 'object'
-  - 'qualifiers'
+  - 'frequency_qualifier'
+  - 'qualifier'
   - 'aggregator_knowledge_source'
   - 'primary_knowledge_source'
   - 'knowledge_level'
