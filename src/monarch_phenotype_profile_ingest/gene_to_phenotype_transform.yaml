@@ -5,6 +5,8 @@ transform_code: "src/monarch_phenotype_profile_ingest/gene_to_phenotype_transfor
 
 name: "gene_to_phenotype" # This is the name of the koza app that is passed into the transform.py
 metadata: "src/monarch_phenotype_profile_ingest/metadata.yaml"
+
+# Main file for data ingest 
 files:
   - 'data/genes_to_phenotype.txt'
 
@@ -34,3 +36,17 @@ edge_properties:
   - 'agent_type'
     
 transform_mode: 'flat'
+
+
+# For mondo disease_id mapping
+sssom_config:
+  files:
+    - "data/mondo.sssom.tsv"
+
+  subject_target_prefixes:
+   - "MONDO"
+
+  use_match:
+    - "exact" 
+  
+  
