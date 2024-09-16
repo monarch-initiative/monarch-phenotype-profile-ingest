@@ -1,0 +1,56 @@
+transform_code: "src/monarch_phenotype_profile_ingest/disease_model_from_hpoa_transform.py"
+
+name: 'disease_model_from_hpoa'
+
+metadata:
+  ingest_title: 'Human Phenotype Ontology Annotations'
+  ingest_url: 'https://hpo.jax.org/app/'
+  description: 'Ingest of HPO disease to phenotype associations'
+  rights: 'https://hpo.jax.org/app/license'
+
+files:
+  - 'data/phenotype.hpoa'
+
+header: 4
+format: 'csv'
+delimiter: '\t'
+
+global_table: 'data/translation_table.yaml'
+local_table: 'src/monarch_phenotype_profile_ingest/hpoa_translation.yaml'
+
+# For a csv/tsv file, list expected columns
+columns:
+  - 'database_id'
+  - 'disease_name'
+  - 'qualifier'
+  - 'hpo_id'
+  - 'reference'
+  - 'evidence'
+  - 'onset'
+  - 'frequency'
+  - 'sex'
+  - 'modifier'
+  - 'aspect'
+  - 'biocuration'
+
+# DiseaseToPhenotypicFeatureAssociation and mode of inheritcance
+edge_properties:
+  - 'id'
+  - 'category'
+  - 'subject'
+  - 'predicate'
+  - 'negated'
+  - 'object'
+  - 'publications'
+  - 'onset_qualifier'
+  - 'frequency_qualifier'
+  - 'has_count'
+  - 'has_total'
+  - 'has_percentage'
+  - 'has_quotient'
+  - 'sex_qualifier'
+  - 'has_evidence'
+  - 'aggregator_knowledge_source'
+  - 'primary_knowledge_source'
+  - 'knowledge_level'
+  - 'agent_type'
