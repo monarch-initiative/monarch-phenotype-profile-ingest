@@ -12,7 +12,12 @@
   local_name: data/mondo.sssom.tsv
 
 
-# For disease_to_phenotype
+# For genes_to_disease
+- url: http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt
+  local_name: data/genes_to_disease.txt
+
+
+# For disease_to_phenotype and mode of inheritance
 - url: http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa
   local_name: data/phenotype.hpoa
 

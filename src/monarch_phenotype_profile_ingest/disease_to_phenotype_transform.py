@@ -18,14 +18,12 @@ We are only keeping 'P' == 'phenotypic anomaly' records.
 
 Usage:
 poetry run koza transform \
-  --global-table src/monarch_ingest/translation_table.yaml \
-  --local-table src/monarch_ingest/ingests/hpoa/hpoa-translation.yaml \
-  --source src/monarch_ingest/ingests/hpoa/disease_phenotype.yaml \
+  --global-table data/translation_table.yaml \
+  --local-table src/monarch_phenotype_profile_ingest/hpoa_translation.yaml \
+  --source src/monarch_phenotype_profile_ingest/disease_to_phenotype.yaml \
   --output-format tsv
 """
 
-# General imports
-import sys
 from typing import Optional, List
 import uuid
 
@@ -52,7 +50,7 @@ def get_primary_knowledge_source(disease_id: str) -> str:
 # Initiate koza app
 koza_app = get_koza_app("disease_to_phenotype")
 
-count = 0
+
 while (row := koza_app.get_row()) is not None:
 
     # Nodes
@@ -114,12 +112,5 @@ while (row := koza_app.get_row()) is not None:
                                                         primary_knowledge_source=primary_knowledge_source,
                                                         knowledge_level=KnowledgeLevelEnum.knowledge_assertion,
                                                         agent_type=AgentTypeEnum.manual_agent)
-    
-    
-    #print(association)
-    count += 1
-    #if count == 10:
-    #    sys.exit()
-    #    break
 
     koza_app.write(association)
