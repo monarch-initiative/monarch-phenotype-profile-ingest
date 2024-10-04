@@ -15,12 +15,20 @@ from phenotype_ingest_utils import phenotype_frequency_to_hpo_term, Frequency
 
 # Initiate koza app and mondo map from sssom file
 koza_app = get_koza_app("gene_to_phenotype")
-mondo_map = koza_app.source.config.sssom_config.lut
+
+try:
+    # For ingest (this data is unavailable for mock_koza)
+    mondo_map = koza_app.source.config.sssom_config.lut
+except:
+    # For testing ingest (allows mock_koza to bring in map_cache)
+    mondo_map = koza_app.get_map('mondo_map')
 
 
 while (row := koza_app.get_row()) is not None:
     gene_id = "NCBIGene:" + row["ncbi_gene_id"]
     phenotype_id = row["hpo_id"]
+
+    # Set mondo map (we don't do it above, because the testing harness does not like it..)
 
     # No frequency data provided
     if row["frequency"] == "-":
@@ -38,6 +46,7 @@ while (row := koza_app.get_row()) is not None:
     
     # TO DO: we may want to incorporate the original disease id somehow?
     # TO DO: Need to add in the disease_context_qualifier information here once biolink is updated
+
     association = GeneToPhenotypicFeatureAssociation(id="uuid:" + str(uuid.uuid1()),
                                                      subject=gene_id,
                                                      predicate="biolink:has_phenotype",
@@ -55,6 +64,6 @@ while (row := koza_app.get_row()) is not None:
                                                      has_total=frequency.has_total)
 
                                                      # For this ingest, will either be mondo or orphanet id (i.e. MONDO:0004979) 
-                                                     ##disease_context_qualifier=dis_id)
+                                                     #disease_context_qualifier=dis_id)
     
     koza_app.write(association)

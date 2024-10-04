@@ -34,6 +34,12 @@ edge_properties:
   - 'primary_knowledge_source'
   - 'knowledge_level'
   - 'agent_type'
+  - 'has_count'
+  
+  #- 'has_total'
+  #- 'has_quotient'
+  #- 'has_percentage'
+  #- 'has'
     
 transform_mode: 'flat'
 
@@ -47,6 +53,6 @@ sssom_config:
    - "MONDO"
 
   use_match:
-    - "exact" 
+    - "exact"
   
   
