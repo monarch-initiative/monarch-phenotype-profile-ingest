@@ -5,7 +5,7 @@ from koza.utils.testing_utils import mock_koza  # noqa: F401
 INGEST_NAME = "disease_to_phenotype"
 INGEST_CODE = "./src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.py"
 LOCAL_TABLE = "./src/monarch_phenotype_profile_ingest/hpoa_translation.yaml"
-GLOBAL_TABLE = "./data/translation_table.yaml"
+GLOBAL_TABLE = "./tests/translation_table.yaml"
 
 
 @pytest.fixture
