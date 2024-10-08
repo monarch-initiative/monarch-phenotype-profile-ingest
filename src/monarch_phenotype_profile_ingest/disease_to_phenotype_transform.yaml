@@ -15,9 +15,6 @@ header: 4
 format: 'csv'
 delimiter: '\t'
 
-global_table: 'data/translation_table.yaml'
-local_table: 'src/monarch_phenotype_profile_ingest/hpoa_translation.yaml'
-
 # We only concern ourselves with Aspect == 'P' (phenotypic anomalies) records in this ingest.
 filters:
   - inclusion: 'include'

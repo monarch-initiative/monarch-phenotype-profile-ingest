@@ -15,9 +15,6 @@ header: 4
 format: 'csv'
 delimiter: '\t'
 
-global_table: 'data/translation_table.yaml'
-local_table: 'src/monarch_phenotype_profile_ingest/hpoa_translation.yaml'
-
 # This allows us to filter the input file by specific column(s)
 # In this case, we only care about the "aspect" column if it == 'I' (inheritance)
 filters:

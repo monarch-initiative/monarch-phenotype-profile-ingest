@@ -4,8 +4,6 @@ from koza.utils.testing_utils import mock_koza  # noqa: F401
 
 INGEST_NAME = "disease_mode_of_inheritance"
 INGEST_CODE = "./src/monarch_phenotype_profile_ingest/disease_mode_of_inheritance_transform.py"
-LOCAL_TABLE = "./src/monarch_phenotype_profile_ingest/hpoa_translation.yaml"
-GLOBAL_TABLE = "./tests/translation_table.yaml"
 
 
 @pytest.fixture
@@ -29,8 +27,6 @@ def d2moi_entities(mock_koza):
         name=INGEST_NAME,
         data=row,
         transform_code=INGEST_CODE,
-        global_table=GLOBAL_TABLE,
-        local_table=LOCAL_TABLE,
     )
 
 

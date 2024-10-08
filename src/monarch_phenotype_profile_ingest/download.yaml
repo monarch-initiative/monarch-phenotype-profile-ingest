@@ -21,8 +21,5 @@
 - url: http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa
   local_name: data/phenotype.hpoa
 
-- url: https://raw.githubusercontent.com/monarch-initiative/monarch-ingest/main/src/monarch_ingest/translation_table.yaml
-  local_name: data/translation_table.yaml
-
 - url: https://raw.githubusercontent.com/monarch-initiative/monarch-ingest/main/src/monarch_ingest/constants.py
   local_name: src/monarch_phenotype_profile_ingest/monarch_constants.py

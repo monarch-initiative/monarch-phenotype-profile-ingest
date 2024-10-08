@@ -27,7 +27,10 @@ from koza.cli_utils import get_koza_app
 from biolink_model.datamodel.pydanticmodel_v2 import (DiseaseOrPhenotypicFeatureToGeneticInheritanceAssociation,
                                                       KnowledgeLevelEnum,
                                                       AgentTypeEnum)
+from phenotype_ingest_utils import (evidence_to_eco, 
+                                    hpo_to_mode_of_inheritance)
 from loguru import logger
+
 
 
 koza_app = get_koza_app("disease_mode_of_inheritance")
@@ -40,7 +43,7 @@ while (row := koza_app.get_row()) is not None:
 
     # We ignore records that don't map to a known HPO term for Genetic Inheritance
     # (as recorded in the locally bound 'hpoa-modes-of-inheritance' table)
-    if hpo_id and hpo_id in koza_app.translation_table.local_table:
+    if hpo_id and hpo_id in hpo_to_mode_of_inheritance:
 
         # Nodes
 
@@ -53,7 +56,7 @@ while (row := koza_app.get_row()) is not None:
         # Annotations
 
         # Three letter ECO code to ECO class based on HPO documentation
-        evidence_curie = koza_app.translation_table.resolve_term(row["evidence"])
+        evidence_curie = evidence_to_eco[row["evidence"]]
 
         # Publications
         publications_field: str = row["reference"]

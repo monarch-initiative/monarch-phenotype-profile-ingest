@@ -32,8 +32,12 @@ from koza.cli_utils import get_koza_app
 from biolink_model.datamodel.pydanticmodel_v2 import (DiseaseToPhenotypicFeatureAssociation,
                                                       KnowledgeLevelEnum,
                                                       AgentTypeEnum)
-from phenotype_ingest_utils import phenotype_frequency_to_hpo_term, Frequency
-
+from phenotype_ingest_utils import (evidence_to_eco, 
+                                    sex_format,
+                                    sex_to_pato,
+                                    hpo_to_mode_of_inheritance,
+                                    phenotype_frequency_to_hpo_term, 
+                                    Frequency)
 
 
 def get_primary_knowledge_source(disease_id: str) -> str:
@@ -47,9 +51,7 @@ def get_primary_knowledge_source(disease_id: str) -> str:
         raise ValueError(f"Unknown disease ID prefix for {disease_id}, can't set primary_knowledge_source")
 
 
-# Initiate koza app
 koza_app = get_koza_app("disease_to_phenotype")
-
 
 while (row := koza_app.get_row()) is not None:
 
@@ -72,12 +74,13 @@ while (row := koza_app.get_row()) is not None:
 
     # Translations to curies
     # Three letter ECO code to ECO class based on hpo documentation
-    evidence_curie = koza_app.translation_table.resolve_term(row["evidence"])
+    evidence_curie = evidence_to_eco[row["evidence"]]
 
     # female -> PATO:0000383
     # male -> PATO:0000384
     sex: Optional[str] = row["sex"]  # may be translated by local table
-    sex_qualifier = koza_app.translation_table.resolve_term(sex) if sex else None
+    sex_qualifier = sex_to_pato[sex_format[sex]] if sex in sex_format else None
+    #sex_qualifier = sex_format[sex] if sex in sex_format else None
 
     onset = row["onset"]
 

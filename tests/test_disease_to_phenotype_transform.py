@@ -4,8 +4,6 @@ from koza.utils.testing_utils import mock_koza  # noqa: F401
 
 INGEST_NAME = "disease_to_phenotype"
 INGEST_CODE = "./src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.py"
-LOCAL_TABLE = "./src/monarch_phenotype_profile_ingest/hpoa_translation.yaml"
-GLOBAL_TABLE = "./tests/translation_table.yaml"
 
 
 @pytest.fixture
@@ -28,8 +26,6 @@ def d2pf_entities_1(mock_koza):
         name=INGEST_NAME,
         data=row,
         transform_code=INGEST_CODE,
-        global_table=GLOBAL_TABLE,
-        local_table=LOCAL_TABLE,
     )
 
 
@@ -74,8 +70,6 @@ def d2pf_entities_2(mock_koza):
         name=INGEST_NAME,
         data=row,
         transform_code=INGEST_CODE,
-        global_table=GLOBAL_TABLE,
-        local_table=LOCAL_TABLE,
     )
 
 
@@ -118,8 +112,6 @@ def d2pf_entities_3(mock_koza):
         name=INGEST_NAME,
         data=row,
         transform_code=INGEST_CODE,
-        global_table=GLOBAL_TABLE,
-        local_table=LOCAL_TABLE,
     )
 
 
@@ -165,8 +157,6 @@ def d2pf_frequency_fraction_entities(mock_koza, d2pf_entities_1):
         name=INGEST_NAME,
         data=row,
         transform_code=INGEST_CODE,
-        global_table=GLOBAL_TABLE,
-        local_table=LOCAL_TABLE,
     )
 
 
@@ -205,8 +195,6 @@ def count_zero_entities(mock_koza):
         name=INGEST_NAME,
         data=[row],
         transform_code=INGEST_CODE,
-        global_table=GLOBAL_TABLE,
-        local_table=LOCAL_TABLE,
     )
 
 
@@ -238,8 +226,6 @@ def orphanet_entities(mock_koza):
         name=INGEST_NAME,
         data=[row],
         transform_code=INGEST_CODE,
-        global_table=GLOBAL_TABLE,
-        local_table=LOCAL_TABLE,
     )
 
 
