@@ -28,8 +28,6 @@ while (row := koza_app.get_row()) is not None:
     gene_id = "NCBIGene:" + row["ncbi_gene_id"]
     phenotype_id = row["hpo_id"]
 
-    # Set mondo map (we don't do it above, because the testing harness does not like it..)
-
     # No frequency data provided
     if row["frequency"] == "-":
         frequency = Frequency()
@@ -54,16 +52,16 @@ while (row := koza_app.get_row()) is not None:
                                                      aggregator_knowledge_source=["infores:monarchinitiative"],
                                                      primary_knowledge_source="infores:hpo-annotations",
                                                      knowledge_level=KnowledgeLevelEnum.logical_entailment,
-                                                     agent_type=AgentTypeEnum.automated_agent,
+                                                     agent_type=AgentTypeEnum.automated_agent)
                                                     
-                                                     # New data
-                                                     frequency_qualifier=frequency.frequency_qualifier if frequency.frequency_qualifier else None,
-                                                     has_percentage=frequency.has_percentage,
-                                                     has_quotient=frequency.has_quotient,
-                                                     has_count=frequency.has_count,
-                                                     has_total=frequency.has_total)
+                                                    #  # New data
+                                                    #  frequency_qualifier=frequency.frequency_qualifier if frequency.frequency_qualifier else None,
+                                                    #  has_percentage=frequency.has_percentage,
+                                                    #  has_quotient=frequency.has_quotient,
+                                                    #  has_count=frequency.has_count,
+                                                    #  has_total=frequency.has_total,
 
-                                                     # For this ingest, will either be mondo or orphanet id (i.e. MONDO:0004979) 
-                                                     #disease_context_qualifier=dis_id)
+                                                    #  # For this ingest, will either be mondo or orphanet id (i.e. MONDO:0004979) 
+                                                    #  disease_context_qualifier=dis_id)
     
     koza_app.write(association)

@@ -28,18 +28,18 @@ edge_properties:
   - 'subject'
   - 'predicate'
   - 'object'
-  - 'frequency_qualifier'
-  - 'qualifier'
   - 'aggregator_knowledge_source'
   - 'primary_knowledge_source'
   - 'knowledge_level'
   - 'agent_type'
-  - 'has_count'
-  
-  #- 'has_total'
-  #- 'has_quotient'
-  #- 'has_percentage'
-  #- 'has'
+ 
+ # TO DO: Uncomment / test more edges output once biolink is updated
+ # - 'frequency_qualifier'
+ # - 'has_count'
+ # - 'has_total'
+ # - 'has_percentage'
+ # - 'has_quotient'
+ # - 'disease_context_qualifier'
     
 transform_mode: 'flat'
 

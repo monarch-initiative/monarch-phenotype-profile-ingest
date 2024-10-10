@@ -229,13 +229,15 @@ def get_predicate(original_predicate: str) -> str:
 
 
 
+
+### The following dictionary monarch_translation_table (that is hundreds of lines long) is copied 
+### over from the very first iteration of this ingest. It is essentially vestigial code that I have kept for
+### posterity. Was used as a "fall back" for any term in the ingest file that didn't map to an expected table.
+### For example, if an evidence code didn't match to our eco dictionary, then it would be checked against
+### the monarch_translation_table as a secondary try. 
+### We no longer perform this secondary mapping
+
 ########################################################
-### TO DO: This needs to be slimmed down somehow...) ###
-### This dictionary is directly copied from the monarch ingest... ###
-# GLOBAL_TERMS.yaml
-# contents in this file are sorted by the value
-# (i.e. the ontology term after the colon) in {key value} pair
-# these need to be moved to localtts till the terms exist: :!!!
 monarch_translation_table: Dict = {
 "activating_mutation": ":activating",
 "all_missense_or_inframe": ":all_missense_or_inframe",
