@@ -73,10 +73,11 @@ download:
 
 .PHONY: run
 run: download
-#	$(RUN) ingest transform
+	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/gene_to_disease_transform.yaml
 	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/gene_to_phenotype_transform.yaml
 	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.yaml
-#	$(RUN) python scripts/generate-report.py
+	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/disease_mode_of_inheritance_transform.yaml
+	$(RUN) python scripts/generate-report.py
 
 
 ### Linting, Formatting, and Cleaning ###
