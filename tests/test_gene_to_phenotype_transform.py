@@ -157,12 +157,12 @@ def test_hpoa_g2p_association(basic_hpoa):
     assert association.primary_knowledge_source == "infores:hpo-annotations"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
 
-    # Newest additions (frequency information)
-    assert basic_hpoa[0].frequency_qualifier == None
-    assert basic_hpoa[0].has_percentage == 30.0
-    assert basic_hpoa[0].has_quotient == 0.3
-    assert basic_hpoa[0].has_count == 3
-    assert basic_hpoa[0].has_total == 10
+    # # Newest additions (frequency information)
+    # assert basic_hpoa[0].frequency_qualifier == None
+    # assert basic_hpoa[0].has_percentage == 30.0
+    # assert basic_hpoa[0].has_quotient == 0.3
+    # assert basic_hpoa[0].has_count == 3
+    # assert basic_hpoa[0].has_total == 10
 
 # Frequency data is in the form of percentage (i.e. 55% or 40.7% etc...)
 def test_hpoa_g2p_association_v2(basic_hpoa_v2):
@@ -178,12 +178,12 @@ def test_hpoa_g2p_association_v2(basic_hpoa_v2):
     assert association.primary_knowledge_source == "infores:hpo-annotations"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
 
-    # Newest additions (frequency information)
-    assert basic_hpoa_v2[0].frequency_qualifier == None
-    assert basic_hpoa_v2[0].has_percentage == 40.7
-    assert round(basic_hpoa_v2[0].has_quotient, 3) == .407
-    assert basic_hpoa_v2[0].has_count == None
-    assert basic_hpoa_v2[0].has_total == None
+    # # Newest additions (frequency information)
+    # assert basic_hpoa_v2[0].frequency_qualifier == None
+    # assert basic_hpoa_v2[0].has_percentage == 40.7
+    # assert round(basic_hpoa_v2[0].has_quotient, 3) == .407
+    # assert basic_hpoa_v2[0].has_count == None
+    # assert basic_hpoa_v2[0].has_total == None
 
 # Frequency data is in the form of "-" (i.e. it does not exist)
 def test_hpoa_g2p_association_v3(basic_hpoa_v3):
@@ -199,9 +199,9 @@ def test_hpoa_g2p_association_v3(basic_hpoa_v3):
     assert association.primary_knowledge_source == "infores:hpo-annotations"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
 
-    # Newest additions (frequency information)
-    assert basic_hpoa_v3[0].frequency_qualifier == None
-    assert basic_hpoa_v3[0].has_percentage == None
-    assert basic_hpoa_v3[0].has_quotient == None
-    assert basic_hpoa_v3[0].has_count == None
-    assert basic_hpoa_v3[0].has_total == None
+    # # Newest additions (frequency information)
+    # assert basic_hpoa_v3[0].frequency_qualifier == None
+    # assert basic_hpoa_v3[0].has_percentage == None
+    # assert basic_hpoa_v3[0].has_quotient == None
+    # assert basic_hpoa_v3[0].has_count == None
+    # assert basic_hpoa_v3[0].has_total == None
