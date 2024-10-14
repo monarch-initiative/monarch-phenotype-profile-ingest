@@ -149,20 +149,20 @@ def test_hpoa_g2p_association(basic_hpoa):
     assert basic_hpoa
     assert len(basic_hpoa) == 1
     association = [entity for entity in basic_hpoa if isinstance(entity, GeneToPhenotypicFeatureAssociation)][0]
-    assert len(basic_hpoa) == 1
-    assert basic_hpoa[0]
-    assert basic_hpoa[0].subject == "NCBIGene:8192"
-    assert basic_hpoa[0].object == "HP:0000252"
-    assert basic_hpoa[0].predicate == "biolink:has_phenotype"
+    assert association
+    assert association.subject == "NCBIGene:8192"
+    assert association.object == "HP:0000252"
+    assert association.predicate == "biolink:has_phenotype"
     assert association.primary_knowledge_source == "infores:hpo-annotations"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
 
     # # Newest additions (frequency information)
-    # assert basic_hpoa[0].frequency_qualifier == None
-    # assert basic_hpoa[0].has_percentage == 30.0
-    # assert basic_hpoa[0].has_quotient == 0.3
-    # assert basic_hpoa[0].has_count == 3
-    # assert basic_hpoa[0].has_total == 10
+    assert association.frequency_qualifier == None
+    assert association.has_percentage == 30.0
+    assert association.has_quotient == 0.3
+    assert association.has_count == 3
+    assert association.has_total == 10
+    assert association.disease_context_qualifier == "OMIM:614129"
 
 # Frequency data is in the form of percentage (i.e. 55% or 40.7% etc...)
 def test_hpoa_g2p_association_v2(basic_hpoa_v2):
@@ -170,20 +170,20 @@ def test_hpoa_g2p_association_v2(basic_hpoa_v2):
     assert basic_hpoa_v2
     assert len(basic_hpoa_v2) == 1
     association = [entity for entity in basic_hpoa_v2 if isinstance(entity, GeneToPhenotypicFeatureAssociation)][0]
-    assert len(basic_hpoa_v2) == 1
-    assert basic_hpoa_v2[0]
-    assert basic_hpoa_v2[0].subject == "NCBIGene:9839"
-    assert basic_hpoa_v2[0].object == "HP:0012429"
-    assert basic_hpoa_v2[0].predicate == "biolink:has_phenotype"
+    assert association
+    assert association.subject == "NCBIGene:9839"
+    assert association.object == "HP:0012429"
+    assert association.predicate == "biolink:has_phenotype"
     assert association.primary_knowledge_source == "infores:hpo-annotations"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
 
-    # # Newest additions (frequency information)
-    # assert basic_hpoa_v2[0].frequency_qualifier == None
-    # assert basic_hpoa_v2[0].has_percentage == 40.7
-    # assert round(basic_hpoa_v2[0].has_quotient, 3) == .407
-    # assert basic_hpoa_v2[0].has_count == None
-    # assert basic_hpoa_v2[0].has_total == None
+
+    assert association.frequency_qualifier == None
+    assert association.has_percentage == 40.7
+    assert round(association.has_quotient, 3) == .407
+    assert association.has_count == None
+    assert association.has_total == None
+    assert association.disease_context_qualifier == "OMIM:235730"
 
 # Frequency data is in the form of "-" (i.e. it does not exist)
 def test_hpoa_g2p_association_v3(basic_hpoa_v3):
@@ -191,17 +191,15 @@ def test_hpoa_g2p_association_v3(basic_hpoa_v3):
     assert basic_hpoa_v3
     assert len(basic_hpoa_v3) == 1
     association = [entity for entity in basic_hpoa_v3 if isinstance(entity, GeneToPhenotypicFeatureAssociation)][0]
-    assert len(basic_hpoa_v3) == 1
-    assert basic_hpoa_v3[0]
-    assert basic_hpoa_v3[0].subject == "NCBIGene:16"
-    assert basic_hpoa_v3[0].object == "HP:0001284"
-    assert basic_hpoa_v3[0].predicate == "biolink:has_phenotype"
+    assert association
+    assert association.subject == "NCBIGene:16"
+    assert association.object == "HP:0001284"
+    assert association.predicate == "biolink:has_phenotype"
+    assert association.frequency_qualifier == None
+    assert association.has_percentage == None
+    assert association.has_quotient == None
+    assert association.has_count == None
+    assert association.has_total == None
     assert association.primary_knowledge_source == "infores:hpo-annotations"
+    assert association.disease_context_qualifier == "OMIM:613287"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
-
-    # # Newest additions (frequency information)
-    # assert basic_hpoa_v3[0].frequency_qualifier == None
-    # assert basic_hpoa_v3[0].has_percentage == None
-    # assert basic_hpoa_v3[0].has_quotient == None
-    # assert basic_hpoa_v3[0].has_count == None
-    # assert basic_hpoa_v3[0].has_total == None

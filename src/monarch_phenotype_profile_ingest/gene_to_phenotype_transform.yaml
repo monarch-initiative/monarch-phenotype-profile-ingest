@@ -32,14 +32,12 @@ edge_properties:
   - 'primary_knowledge_source'
   - 'knowledge_level'
   - 'agent_type'
- 
- # TO DO: Uncomment / test more edges output once biolink is updated
- # - 'frequency_qualifier'
- # - 'has_count'
- # - 'has_total'
- # - 'has_percentage'
- # - 'has_quotient'
- # - 'disease_context_qualifier'
+  - 'frequency_qualifier'
+  - 'has_count'
+  - 'has_total'
+  - 'has_percentage'
+  - 'has_quotient'
+  - 'disease_context_qualifier'
     
 transform_mode: 'flat'
 
