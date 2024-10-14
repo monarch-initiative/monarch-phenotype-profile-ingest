@@ -17,6 +17,6 @@ src_files = [str(fname) for fname in Path("./output").iterdir()
 kgx_transform(inputs=src_files,
               input_format="tsv",
               stream=True,
-              output=f"output/all_edges_kgx2rdf.nt.gz",
+              output=f"output/all_edges.nt.gz",
               output_format="nt",
               output_compression="gz")
