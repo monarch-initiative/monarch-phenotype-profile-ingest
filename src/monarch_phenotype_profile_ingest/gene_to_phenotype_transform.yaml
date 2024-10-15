@@ -41,16 +41,13 @@ edge_properties:
     
 transform_mode: 'flat'
 
-
 # For mondo disease_id mapping
-sssom_config:
-  files:
-    - "data/mondo.sssom.tsv"
-
-  subject_target_prefixes:
-   - "MONDO"
-
-  use_match:
-    - "exact"
+# sssom_config:
+#   files:
+#    - "data/mondo.sssom.tsv"
+#  subject_target_prefixes:
+#   - "MONDO"
+#  use_match:
+#    - "exact"
   
   
