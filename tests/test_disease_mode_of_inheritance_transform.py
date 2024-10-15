@@ -2,7 +2,7 @@ import pytest
 from biolink_model.datamodel.pydanticmodel_v2 import DiseaseOrPhenotypicFeatureToGeneticInheritanceAssociation
 from koza.utils.testing_utils import mock_koza  # noqa: F401
 
-INGEST_NAME = "disease_mode_of_inheritance"
+INGEST_NAME = "hpoa_disease_mode_of_inheritance"
 INGEST_CODE = "./src/monarch_phenotype_profile_ingest/disease_mode_of_inheritance_transform.py"
 
 

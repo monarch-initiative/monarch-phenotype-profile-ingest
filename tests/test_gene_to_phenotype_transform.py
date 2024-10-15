@@ -12,9 +12,13 @@ def map_cache():
     Therefore, we supply the same information we would have any ways done, as a koza map instead.
     This requires a minor alteration to the ingest_transform.py script itself
     """
-    return {"mondo_map": {"MONDO:0013588":"OMIM:614129",
-                          "MONDO:0009341":"OMIM:235730",
-                          "MONDO:0013212":"OMIM:613287"}}
+    # return {"mondo_map": {"MONDO:0013588":"OMIM:614129",
+    #                       "MONDO:0009341":"OMIM:235730",
+    #                       "MONDO:0013212":"OMIM:613287"}}
+    
+    return {"mondo_map": {"MONDO:0013588":{"subject_id":"OMIM:614129"}},
+                          "MONDO:0009341":{"subject_id":"OMIM:235730"},
+                          "MONDO:0013212":{"subject_id":"OMIM:613287"}}
 
 
 @pytest.fixture
@@ -22,7 +26,7 @@ def source_name():
     """
     :return: string source name of HPOA Gene to Phenotype ingest
     """
-    return "gene_to_phenotype"
+    return "hpoa_gene_to_phenotype"
 
 
 @pytest.fixture
