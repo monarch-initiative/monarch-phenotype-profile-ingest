@@ -2,7 +2,7 @@ import pytest
 from biolink_model.datamodel.pydanticmodel_v2 import DiseaseToPhenotypicFeatureAssociation
 from koza.utils.testing_utils import mock_koza  # noqa: F401
 
-INGEST_NAME = "disease_to_phenotype"
+INGEST_NAME = "hpoa_disease_to_phenotype"
 INGEST_CODE = "./src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.py"
 
 

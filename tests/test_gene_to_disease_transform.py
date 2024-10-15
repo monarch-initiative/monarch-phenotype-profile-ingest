@@ -72,7 +72,7 @@ def row():
 @pytest.fixture
 def basic_g2d_entities(mock_koza, row):
     return mock_koza(
-        name="gene_to_disease",
+        name="hpoa_gene_to_disease",
         data=row,
         transform_code="./src/monarch_phenotype_profile_ingest/gene_to_disease_transform.py"
     )
