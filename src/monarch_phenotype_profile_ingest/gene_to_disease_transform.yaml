@@ -1,4 +1,4 @@
-name: 'gene_to_disease'
+name: 'hpoa_gene_to_disease'
 
 files:
   - './data/genes_to_disease.txt'

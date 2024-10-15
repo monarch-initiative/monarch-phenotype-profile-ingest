@@ -14,7 +14,7 @@ from phenotype_ingest_utils import phenotype_frequency_to_hpo_term, Frequency
 
 
 # Initiate koza app and mondo map from sssom file
-koza_app = get_koza_app("gene_to_phenotype")
+koza_app = get_koza_app("hpoa_gene_to_phenotype")
 
 try:
     # For ingest (this data is unavailable for mock_koza)

@@ -1,6 +1,6 @@
 transform_code: "src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.py"
 
-name: 'disease_to_phenotype'
+name: 'hpoa_disease_to_phenotype'
 
 metadata:
   ingest_title: 'Human Phenotype Ontology Annotations'

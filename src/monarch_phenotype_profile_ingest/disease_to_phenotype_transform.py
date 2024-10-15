@@ -51,7 +51,7 @@ def get_primary_knowledge_source(disease_id: str) -> str:
         raise ValueError(f"Unknown disease ID prefix for {disease_id}, can't set primary_knowledge_source")
 
 
-koza_app = get_koza_app("disease_to_phenotype")
+koza_app = get_koza_app("hpoa_disease_to_phenotype")
 
 while (row := koza_app.get_row()) is not None:
 

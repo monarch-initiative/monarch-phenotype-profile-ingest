@@ -9,7 +9,7 @@ from koza.cli_utils import get_koza_app
 from monarch_constants import INFORES_MONARCHINITIATIVE, BIOLINK_CAUSES
 from phenotype_ingest_utils import get_knowledge_sources, get_predicate
 
-koza_app = get_koza_app("gene_to_disease")
+koza_app = get_koza_app("hpoa_gene_to_disease")
 
 
 while (row := koza_app.get_row()) is not None:

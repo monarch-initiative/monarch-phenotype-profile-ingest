@@ -33,7 +33,7 @@ from loguru import logger
 
 
 
-koza_app = get_koza_app("disease_mode_of_inheritance")
+koza_app = get_koza_app("hpoa_disease_mode_of_inheritance")
 
 while (row := koza_app.get_row()) is not None:
 

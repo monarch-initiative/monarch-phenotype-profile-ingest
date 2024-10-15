@@ -3,7 +3,7 @@
 
 transform_code: "src/monarch_phenotype_profile_ingest/gene_to_phenotype_transform.py"
 
-name: "gene_to_phenotype" # This is the name of the koza app that is passed into the transform.py
+name: "hpoa_gene_to_phenotype" # This is the name of the koza app that is passed into the transform.py
 metadata: "src/monarch_phenotype_profile_ingest/metadata.yaml"
 
 # Main file for data ingest 
