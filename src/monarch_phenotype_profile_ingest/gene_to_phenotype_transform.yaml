@@ -10,6 +10,9 @@ metadata: "src/monarch_phenotype_profile_ingest/metadata.yaml"
 files:
   - 'data/genes_to_phenotype.txt'
 
+depends_on:
+  - 'src/monarch_phenotype_profile_ingest/mondo_sssom_config.yaml'
+
 header: 0
 format: 'csv'
 delimiter: '\t'
@@ -41,13 +44,14 @@ edge_properties:
     
 transform_mode: 'flat'
 
-# For mondo disease_id mapping
+# We are using the mapping table functionality instead (may switch to this down the road...)
+# # For mondo disease_id mapping
 # sssom_config:
 #   files:
 #    - "data/mondo.sssom.tsv"
-#  subject_target_prefixes:
-#   - "MONDO"
-#  use_match:
+#   subject_target_prefixes:
+#    - "MONDO"
+#   use_match:
 #    - "exact"
   
   

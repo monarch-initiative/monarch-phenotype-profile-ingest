@@ -15,13 +15,7 @@ from phenotype_ingest_utils import phenotype_frequency_to_hpo_term, Frequency
 
 # Initiate koza app and mondo map from sssom file
 koza_app = get_koza_app("hpoa_gene_to_phenotype")
-
-try:
-    # For ingest (this data is unavailable for mock_koza)
-    mondo_map = koza_app.source.config.sssom_config.lut
-except:
-    # For testing ingest (allows mock_koza to bring in map_cache)
-    mondo_map = koza_app.get_map('mondo_map')
+mondo_map = koza_app.get_map('mondo_map')
 
 
 while (row := koza_app.get_row()) is not None:
@@ -39,11 +33,9 @@ while (row := koza_app.get_row()) is not None:
     org_id = row["disease_id"].replace("ORPHA:", "Orphanet:")
     dis_id = org_id
     if dis_id in mondo_map:
-        if "MONDO" in mondo_map[dis_id]:
-            dis_id = mondo_map[dis_id]["MONDO"]
-    
+        dis_id = mondo_map[dis_id]['subject_id']
+
     # TO DO: we may want to incorporate the original disease id somehow?
-    # TO DO: Need to add in the disease_context_qualifier information here once biolink is updated
 
     association = GeneToPhenotypicFeatureAssociation(id="uuid:" + str(uuid.uuid1()),
                                                      subject=gene_id,
