@@ -39,7 +39,7 @@ while (row := koza_app.get_row()) is not None:
         dis_id = mondo_map[dis_id]['subject_id']
 
 
-    publications = row["publications"].split(";") if row["publications"] else []
+    publications = [pub.strip() for pub in row["publications"].split(";")] if row["publications"] else []
 
     association = GeneToPhenotypicFeatureAssociation(id="uuid:" + str(uuid.uuid1()),
                                                      subject=gene_id,
