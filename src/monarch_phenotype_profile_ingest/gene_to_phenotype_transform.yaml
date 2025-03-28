@@ -6,9 +6,10 @@ transform_code: "src/monarch_phenotype_profile_ingest/gene_to_phenotype_transfor
 name: "hpoa_gene_to_phenotype" # This is the name of the koza app that is passed into the transform.py
 metadata: "src/monarch_phenotype_profile_ingest/metadata.yaml"
 
-# Main file for data ingest 
+# This file is produced by scripts/gene_to_phenotype_publications.py based on genes_to_phenotype.txt
+# and the publications from phenotype.hpoa given the same disease, phenotype and frequency columns
 files:
-  - 'data/genes_to_phenotype.txt'
+  - 'data/genes_to_phenotype_with_publications.tsv'
 
 depends_on:
   - 'src/monarch_phenotype_profile_ingest/mondo_sssom_config.yaml'
@@ -41,7 +42,8 @@ edge_properties:
   - 'has_percentage'
   - 'has_quotient'
   - 'disease_context_qualifier'
-    
+  - 'publications'
+
 transform_mode: 'flat'
 
 # We are using the mapping table functionality instead (may switch to this down the road...)

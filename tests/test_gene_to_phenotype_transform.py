@@ -47,7 +47,7 @@ def test_row():
         "gene_symbol": "CLPP",
         "hpo_id": "HP:0000252",
         "hpo_name": "Microcephaly",
-
+        "publications": "PMID:1234567;OMIM:614129",
         "frequency": "3/10",
         "disease_id": "OMIM:614129"
     }
@@ -63,7 +63,7 @@ def test_row_v2():
         "gene_symbol": "ZEB2",
         "hpo_id": "HP:0012429",
         "hpo_name": "Aplasia/Hypoplasia of the cerebral white matter",
-
+        "publications": "PMID:1234567",
         "frequency": "40.7%",
         "disease_id": "OMIM:235730"
     }
@@ -79,7 +79,7 @@ def test_row_v3():
         "gene_symbol": "AARS1",
         "hpo_id": "HP:0001284",
         "hpo_name": "Areflexia",
-
+        "publications": "PMID:1234567;PMID:2345678",
         "frequency": "-",
         "disease_id": "OMIM:613287"
     }
@@ -167,6 +167,7 @@ def test_hpoa_g2p_association(basic_hpoa):
     assert association.has_count == 3
     assert association.has_total == 10
     assert association.disease_context_qualifier == "OMIM:614129"
+    assert association.publications == ["PMID:1234567"]
 
 # Frequency data is in the form of percentage (i.e. 55% or 40.7% etc...)
 def test_hpoa_g2p_association_v2(basic_hpoa_v2):
@@ -188,6 +189,7 @@ def test_hpoa_g2p_association_v2(basic_hpoa_v2):
     assert association.has_count == None
     assert association.has_total == None
     assert association.disease_context_qualifier == "OMIM:235730"
+    assert association.publications == ["PMID:1234567"]
 
 # Frequency data is in the form of "-" (i.e. it does not exist)
 def test_hpoa_g2p_association_v3(basic_hpoa_v3):
@@ -207,3 +209,4 @@ def test_hpoa_g2p_association_v3(basic_hpoa_v3):
     assert association.primary_knowledge_source == "infores:hpo-annotations"
     assert association.disease_context_qualifier == "OMIM:613287"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
+    assert association.publications == ["PMID:1234567", "PMID:2345678"]
