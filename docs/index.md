@@ -162,8 +162,6 @@ This ingest processes the tab-delimited [genes_to_phenotype_with_publications.ts
 
 The publication data is pre-processed using the `scripts/gene_to_phenotype_publications.py` script, which performs a join between gene-to-phenotype associations and phenotype annotations in HPOA. The join is based on matching HPO terms, disease IDs, and frequency values. This enriches gene-to-phenotype associations with relevant publication references from the phenotype.hpoa file.
 
-During the transform process, publication identifiers are filtered to include only PMIDs (PubMed identifiers matching the pattern "PMID:\d+"). Non-PMID identifiers (such as OMIM references or other sources) are excluded from the final output.
-
 ### Biolink Entities Captured
 
 * biolink:GeneToPhenotypicFeatureAssociation
@@ -199,7 +197,7 @@ During the transform process, publication identifiers are filtered to include on
   "subject": "NCBIGene:8192",
   "predicate": "biolink:has_phenotype",
   "object": "HP:0000252",
-  "publications": ["PMID:1234567"],  // Note: Only PMID references are included, OMIM:614129 is filtered out
+  "publications": ["PMID:1234567","OMIM:614129"],
   "frequency_qualifier": 30.0,
   "in_taxon": "NCBITaxon:9606",
   "primary_knowledge_source": "infores:hpo-annotations",

@@ -40,7 +40,6 @@ while (row := koza_app.get_row()) is not None:
 
 
     publications = row["publications"].split(";") if row["publications"] else []
-    pmids = [publication for publication in publications if re.match(r"^PMID:\d+$", publication)]
 
     association = GeneToPhenotypicFeatureAssociation(id="uuid:" + str(uuid.uuid1()),
                                                      subject=gene_id,
@@ -56,6 +55,6 @@ while (row := koza_app.get_row()) is not None:
                                                      has_count=frequency.has_count,
                                                      has_total=frequency.has_total,
                                                      disease_context_qualifier=dis_id,
-                                                     publications=pmids)
+                                                     publications=publications)
 
     koza_app.write(association)

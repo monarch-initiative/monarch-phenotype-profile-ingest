@@ -167,7 +167,7 @@ def test_hpoa_g2p_association(basic_hpoa):
     assert association.has_count == 3
     assert association.has_total == 10
     assert association.disease_context_qualifier == "OMIM:614129"
-    assert association.publications == ["PMID:1234567"]
+    assert association.publications == ["PMID:1234567","OMIM:614129"]
 
 # Frequency data is in the form of percentage (i.e. 55% or 40.7% etc...)
 def test_hpoa_g2p_association_v2(basic_hpoa_v2):
