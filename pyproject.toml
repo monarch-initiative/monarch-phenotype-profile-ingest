@@ -9,12 +9,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 importlib-metadata = ">=4.8.0"
-koza = ">=0.6.0"
-kghub-downloader = ">=0.3.8"
+koza = ">=0.7.2"
+kghub-downloader = "0.3.8"
 kgx = ">=2.4.0"
 biolink-model = "4.2.5rc2"
 duckdb = ">=0.10.2"
 loguru = "*"
+pronto = "^2.4.0"
 
 [tool.poetry.group.dev]
 optional = true
