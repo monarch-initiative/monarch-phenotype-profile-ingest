@@ -35,7 +35,6 @@ from biolink_model.datamodel.pydanticmodel_v2 import (DiseaseToPhenotypicFeature
 from phenotype_ingest_utils import (evidence_to_eco, 
                                     sex_format,
                                     sex_to_pato,
-                                    hpo_to_mode_of_inheritance,
                                     phenotype_frequency_to_hpo_term, 
                                     Frequency)
 
