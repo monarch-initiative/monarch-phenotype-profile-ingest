@@ -28,11 +28,11 @@ from biolink_model.datamodel.pydanticmodel_v2 import (DiseaseOrPhenotypicFeature
                                                       KnowledgeLevelEnum,
                                                       AgentTypeEnum)
 from phenotype_ingest_utils import (evidence_to_eco, 
-                                    hpo_to_mode_of_inheritance)
+                                    read_ontology_to_exclusion_terms)
 from loguru import logger
 
-
-
+# Read hpo mode of inheritance terms into memory using pronto + hp.obo file + HP:0000005 (Mode of Inheritance)
+modes_of_inheritance = read_ontology_to_exclusion_terms("data/hp.obo", umbrella_term="HP:0000005", include=True)
 koza_app = get_koza_app("hpoa_disease_mode_of_inheritance")
 
 while (row := koza_app.get_row()) is not None:
@@ -43,7 +43,7 @@ while (row := koza_app.get_row()) is not None:
 
     # We ignore records that don't map to a known HPO term for Genetic Inheritance
     # (as recorded in the locally bound 'hpoa-modes-of-inheritance' table)
-    if hpo_id and hpo_id in hpo_to_mode_of_inheritance:
+    if hpo_id and hpo_id in modes_of_inheritance:
 
         # Nodes
 
