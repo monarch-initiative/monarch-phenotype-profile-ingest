@@ -1,6 +1,6 @@
 # monarch-phenotype-profile-ingest
 
-| [Documentation](https://github.com/monarch-initiative/monarch-ingest/blob/2024-08-12/docs/Sources/hpoa.md) |
+| [Documentation](https://monarch-initiative.github.io/monarch-ingest/Sources/hpoa/) |
 
 monarch kg ingest for phenotypes
 
