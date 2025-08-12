@@ -71,11 +71,11 @@ test: download
 download:
 	$(RUN) ingest download
 
-data/genes_to_phenotype_with_publications.tsv: download
-	$(RUN) python scripts/gene_to_phenotype_publications.py
+data/genes_to_phenotype_preprocessed.tsv: download
+	$(RUN) python scripts/gene_to_phenotype_extras.py
 
 .PHONY: run
-run: data/genes_to_phenotype_with_publications.tsv
+run: data/genes_to_phenotype_preprocessed.tsv
 	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/gene_to_disease_transform.yaml
 	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/gene_to_phenotype_transform.yaml
 	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.yaml
