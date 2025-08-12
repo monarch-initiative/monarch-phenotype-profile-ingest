@@ -49,7 +49,8 @@ def test_row():
         "hpo_name": "Microcephaly",
         "publications": "PMID:1234567;OMIM:614129",
         "frequency": "3/10",
-        "disease_id": "OMIM:614129"
+        "disease_id": "OMIM:614129",
+        "gene_to_disease_association_types": "MENDELIAN"
     }
 
 
@@ -65,7 +66,8 @@ def test_row_v2():
         "hpo_name": "Aplasia/Hypoplasia of the cerebral white matter",
         "publications": "PMID:1234567",
         "frequency": "40.7%",
-        "disease_id": "OMIM:235730"
+        "disease_id": "OMIM:235730",
+        "gene_to_disease_association_types": "MENDELIAN"
     }
 
 @pytest.fixture
@@ -81,7 +83,8 @@ def test_row_v3():
         "hpo_name": "Areflexia",
         "publications": "PMID:1234567;PMID:2345678",
         "frequency": "-",
-        "disease_id": "OMIM:613287"
+        "disease_id": "OMIM:613287",
+        "gene_to_disease_association_types": "MENDELIAN"
     }
 
 @pytest.fixture

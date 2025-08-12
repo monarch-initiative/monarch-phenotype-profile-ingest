@@ -35,6 +35,12 @@ jobs:
         run: poetry install --no-interaction
 
       #----------------------------------------------
+      #              download data
+      #----------------------------------------------
+      - name: Download data
+        run: poetry run ingest download
+
+      #----------------------------------------------
       #              run pytest
       #----------------------------------------------
       - name: Run tests
