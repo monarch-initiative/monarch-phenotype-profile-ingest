@@ -113,7 +113,7 @@ This ingest processes the tab-delimited [phenotype.hpoa](https://hpo-annotation-
 
 ## [Gene to Disease](#gene_to_disease)
 
-This ingest replaces the direct OMIM ingest so that we share gene-to-disease associations 1:1 with HPO. It processes the tab-delimited [genes_to_disease.txt](http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt) file.
+This ingests of gene to disease edges exists in parallel with our OMIM ingest to provide gene-to-disease associations from Orphanet. It processes the tab-delimited [genes_to_disease.txt](http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt) file. It is filtered to exclude the medgen source data from the HPOA genes to disease file.
 
 ### Biolink Entities Captured
 
