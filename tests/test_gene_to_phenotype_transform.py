@@ -1,40 +1,23 @@
 import pytest
+
 from biolink_model.datamodel.pydanticmodel_v2 import GeneToPhenotypicFeatureAssociation
-from koza.utils.testing_utils import mock_koza  # noqa: F401
+from koza import KozaTransform
+from koza.io.writer.passthrough_writer import PassthroughWriter
 
-
-
-@pytest.fixture
-def map_cache():
-    """
-    Mimicks the mondo.sssom file that allows us to map disease_ids back to mondo
-    NOTE that the actual sssom data within this ingest is stored in a datastructue that mock koza doesn't generate
-    Therefore, we supply the same information we would have any ways done, as a koza map instead.
-    This requires a minor alteration to the ingest_transform.py script itself
-    """
-    # return {"mondo_map": {"MONDO:0013588":"OMIM:614129",
-    #                       "MONDO:0009341":"OMIM:235730",
-    #                       "MONDO:0013212":"OMIM:613287"}}
-    
-    return {"mondo_map": {"MONDO:0013588":{"subject_id":"OMIM:614129"}},
-                          "MONDO:0009341":{"subject_id":"OMIM:235730"},
-                          "MONDO:0013212":{"subject_id":"OMIM:613287"}}
+from monarch_phenotype_profile_ingest.gene_to_phenotype_transform import transform_record
 
 
 @pytest.fixture
-def source_name():
+def mondo_map():
     """
-    :return: string source name of HPOA Gene to Phenotype ingest
+    Mimicks the mondo.sssom file that allows us to map disease_ids back to mondo.
+    Original structure had MONDO as keys mapping to OMIM values.
     """
-    return "hpoa_gene_to_phenotype"
-
-
-@pytest.fixture
-def script():
-    """
-    :return: string path to HPOA Gene to Phenotype ingest script
-    """
-    return "./src/monarch_phenotype_profile_ingest/gene_to_phenotype_transform.py"
+    return {
+        "MONDO:0013588": {"subject_id": "OMIM:614129"},
+        "MONDO:0009341": {"subject_id": "OMIM:235730"},
+        "MONDO:0013212": {"subject_id": "OMIM:613287"}
+    }
 
 
 @pytest.fixture
@@ -70,12 +53,12 @@ def test_row_v2():
         "gene_to_disease_association_types": "MENDELIAN"
     }
 
+
 @pytest.fixture
 def test_row_v3():
     """
     :return: Test HPOA Gene to Phenotype data row.
     """
-
     return {
         "ncbi_gene_id": "16",
         "gene_symbol": "AARS1",
@@ -87,53 +70,48 @@ def test_row_v3():
         "gene_to_disease_association_types": "MENDELIAN"
     }
 
-@pytest.fixture
-def basic_hpoa(mock_koza, source_name, script, test_row, map_cache):
-    """
-    Mock Koza run for HPOA Gene to Phenotype ingest.
-
-    :param mock_koza:
-    :param source_name:
-    :param test_row:
-    :param script:
-
-    :return: mock_koza application
-    """
-    return mock_koza(name=source_name, data=test_row, transform_code=script, map_cache=map_cache)
 
 @pytest.fixture
-def basic_hpoa_v2(mock_koza, source_name, script, test_row_v2, map_cache):
+def basic_hpoa(test_row, mondo_map):
     """
-    Mock Koza run for HPOA Gene to Phenotype ingest.
-
-    :param mock_koza:
-    :param source_name:
-    :param test_row:
-    :param script:
-
-    :return: mock_koza application
+    Koza run for HPOA Gene to Phenotype ingest.
     """
-    return mock_koza(name=source_name, data=test_row_v2, transform_code=script, map_cache=map_cache)
+    koza_transform = KozaTransform(
+        mappings={"mondo_map": mondo_map},
+        writer=PassthroughWriter(),
+        extra_fields={}
+    )
+    return transform_record(koza_transform, test_row)
 
 
 @pytest.fixture
-def basic_hpoa_v3(mock_koza, source_name, script, test_row_v3, map_cache):
+def basic_hpoa_v2(test_row_v2, mondo_map):
     """
-    Mock Koza run for HPOA Gene to Phenotype ingest.
-
-    :param mock_koza:
-    :param source_name:
-    :param test_row:
-    :param script:
-
-    :return: mock_koza application
+    Koza run for HPOA Gene to Phenotype ingest.
     """
-    return mock_koza(name=source_name, data=test_row_v3, transform_code=script, map_cache=map_cache)
+    koza_transform = KozaTransform(
+        mappings={"mondo_map": mondo_map},
+        writer=PassthroughWriter(),
+        extra_fields={}
+    )
+    return transform_record(koza_transform, test_row_v2)
+
+
+@pytest.fixture
+def basic_hpoa_v3(test_row_v3, mondo_map):
+    """
+    Koza run for HPOA Gene to Phenotype ingest.
+    """
+    koza_transform = KozaTransform(
+        mappings={"mondo_map": mondo_map},
+        writer=PassthroughWriter(),
+        extra_fields={}
+    )
+    return transform_record(koza_transform, test_row_v3)
 
 
 @pytest.mark.parametrize("cls", [GeneToPhenotypicFeatureAssociation])
 def test_confirm_one_of_each_classes(cls, basic_hpoa, basic_hpoa_v2, basic_hpoa_v3):
-
     class_entities = [entity for entity in basic_hpoa if isinstance(entity, cls)]
     assert class_entities
     assert len(class_entities) == 1
@@ -152,7 +130,6 @@ def test_confirm_one_of_each_classes(cls, basic_hpoa, basic_hpoa_v2, basic_hpoa_
 
 # Frequency data is in the form of counts (i.e. 3/10, or 56/100 etc...)
 def test_hpoa_g2p_association(basic_hpoa):
-
     assert basic_hpoa
     assert len(basic_hpoa) == 1
     association = [entity for entity in basic_hpoa if isinstance(entity, GeneToPhenotypicFeatureAssociation)][0]
@@ -163,18 +140,18 @@ def test_hpoa_g2p_association(basic_hpoa):
     assert association.primary_knowledge_source == "infores:hpo-annotations"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
 
-    # # Newest additions (frequency information)
+    # Frequency information
     assert association.frequency_qualifier == None
     assert association.has_percentage == 30.0
     assert association.has_quotient == 0.3
     assert association.has_count == 3
     assert association.has_total == 10
     assert association.disease_context_qualifier == "OMIM:614129"
-    assert association.publications == ["PMID:1234567","OMIM:614129"]
+    assert association.publications == ["PMID:1234567", "OMIM:614129"]
+
 
 # Frequency data is in the form of percentage (i.e. 55% or 40.7% etc...)
 def test_hpoa_g2p_association_v2(basic_hpoa_v2):
-
     assert basic_hpoa_v2
     assert len(basic_hpoa_v2) == 1
     association = [entity for entity in basic_hpoa_v2 if isinstance(entity, GeneToPhenotypicFeatureAssociation)][0]
@@ -185,7 +162,6 @@ def test_hpoa_g2p_association_v2(basic_hpoa_v2):
     assert association.primary_knowledge_source == "infores:hpo-annotations"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
 
-
     assert association.frequency_qualifier == None
     assert association.has_percentage == 40.7
     assert round(association.has_quotient, 3) == .407
@@ -194,9 +170,9 @@ def test_hpoa_g2p_association_v2(basic_hpoa_v2):
     assert association.disease_context_qualifier == "OMIM:235730"
     assert association.publications == ["PMID:1234567"]
 
+
 # Frequency data is in the form of "-" (i.e. it does not exist)
 def test_hpoa_g2p_association_v3(basic_hpoa_v3):
-
     assert basic_hpoa_v3
     assert len(basic_hpoa_v3) == 1
     association = [entity for entity in basic_hpoa_v3 if isinstance(entity, GeneToPhenotypicFeatureAssociation)][0]

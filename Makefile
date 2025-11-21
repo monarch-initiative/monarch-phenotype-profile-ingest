@@ -76,10 +76,10 @@ data/genes_to_phenotype_preprocessed.tsv: download
 
 .PHONY: run
 run: data/genes_to_phenotype_preprocessed.tsv
-	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/gene_to_disease_transform.yaml
-	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/gene_to_phenotype_transform.yaml
-	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.yaml
-	$(RUN) koza transform --source src/monarch_phenotype_profile_ingest/disease_mode_of_inheritance_transform.yaml
+	$(RUN) koza transform src/monarch_phenotype_profile_ingest/gene_to_disease_transform.yaml
+	$(RUN) koza transform src/monarch_phenotype_profile_ingest/gene_to_phenotype_transform.yaml
+	$(RUN) koza transform src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.yaml
+	$(RUN) koza transform src/monarch_phenotype_profile_ingest/disease_mode_of_inheritance_transform.yaml
 	$(RUN) python scripts/generate-report.py
 
 

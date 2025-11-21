@@ -1,25 +1,21 @@
-import os
-import sys
 import pytest
 
 from typing import List
 from biolink_model.datamodel.pydanticmodel_v2 import CausalGeneToDiseaseAssociation
-from koza.utils.testing_utils import mock_koza  # noqa: F401
+from koza import KozaTransform
+from koza.io.writer.passthrough_writer import PassthroughWriter
 
-# Grab parent directory as string, and then add where our ingest code is located, and lastly add to sytem path
-parent_dir = '/'.join(os.path.dirname(__file__).split('/')[:-1])
-parent_dir = os.path.join(parent_dir, "src/monarch_phenotype_profile_ingest")
-sys.path.append(parent_dir)
-
-# Now that our "system" path recognizes our src/ directory we can import our utils and constants
-from phenotype_ingest_utils import get_knowledge_sources, get_predicate
-from monarch_constants import(BIOLINK_CAUSES,
-                              BIOLINK_CONTRIBUTES_TO,
-                              BIOLINK_GENE_ASSOCIATED_WITH_CONDITION,
-                              INFORES_MEDGEN,
-                              INFORES_MONARCHINITIATIVE,
-                              INFORES_OMIM,
-                              INFORES_ORPHANET)
+from monarch_phenotype_profile_ingest.phenotype_ingest_utils import get_knowledge_sources, get_predicate
+from monarch_phenotype_profile_ingest.monarch_constants import (
+    BIOLINK_CAUSES,
+    BIOLINK_CONTRIBUTES_TO,
+    BIOLINK_GENE_ASSOCIATED_WITH_CONDITION,
+    INFORES_MEDGEN,
+    INFORES_MONARCHINITIATIVE,
+    INFORES_OMIM,
+    INFORES_ORPHANET
+)
+from monarch_phenotype_profile_ingest.gene_to_disease_transform import transform_record
 
 
 @pytest.mark.parametrize(
@@ -70,12 +66,13 @@ def row():
 
 
 @pytest.fixture
-def basic_g2d_entities(mock_koza, row):
-    return mock_koza(
-        name="hpoa_gene_to_disease",
-        data=row,
-        transform_code="./src/monarch_phenotype_profile_ingest/gene_to_disease_transform.py"
+def basic_g2d_entities(row):
+    koza_transform = KozaTransform(
+        mappings={},
+        writer=PassthroughWriter(),
+        extra_fields={}
     )
+    return transform_record(koza_transform, row)
 
 
 def test_hpoa_gene_to_disease(basic_g2d_entities):

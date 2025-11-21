@@ -1,28 +1,30 @@
 name: 'hpoa_gene_to_disease'
 
-files:
-  - './data/genes_to_disease.txt'
+reader:
+  files:
+    - '../../data/genes_to_disease.txt'
+  format: 'csv'
+  delimiter: '\t'
+  columns:
+    - 'ncbi_gene_id'
+    - 'gene_symbol'
+    - 'association_type'
+    - 'disease_id'
+    - 'source'
+  filters:
+    - inclusion: 'exclude'
+      column: 'source'
+      filter_code: 'eq'
+      value: 'ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/mim2gene_medgen'
 
-format: 'csv'
-
-delimiter: '\t'
-
-columns:
-  - 'ncbi_gene_id'
-  - 'gene_symbol'
-  - 'association_type'
-  - 'disease_id'
-  - 'source'
-
-edge_properties:
-  - 'id'
-  - 'category'
-  - 'subject'
-  - 'predicate'
-  - 'object'
-  - 'aggregator_knowledge_source'
-  - 'primary_knowledge_source'
-  - 'knowledge_level'
-  - 'agent_type'
-
-transform_mode: 'flat'
+writer:
+  edge_properties:
+    - 'id'
+    - 'category'
+    - 'subject'
+    - 'predicate'
+    - 'object'
+    - 'aggregator_knowledge_source'
+    - 'primary_knowledge_source'
+    - 'knowledge_level'
+    - 'agent_type'
