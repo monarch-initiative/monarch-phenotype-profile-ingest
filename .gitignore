@@ -132,6 +132,7 @@ dmypy.json
 data/
 output/
 test-output/
+releases/
 
 #IDE stuff
 .idea/
