@@ -4,7 +4,8 @@ import logging
 from pathlib import Path
 
 from kghub_downloader.download_utils import download_from_yaml
-from koza.cli_utils import transform_source
+from koza.runner import KozaRunner
+from koza.model.formats import OutputFormat
 import typer
 
 app = typer.Typer()
@@ -38,13 +39,13 @@ def transform(
     """Run the Koza transform for monarch-phenotype-profile-ingest."""
     typer.echo("Transforming data for monarch-phenotype-profile-ingest...")
     transform_code = Path(__file__).parent / "transform.yaml"
-    transform_source(
-        source=transform_code,
+    config, runner = KozaRunner.from_config_file(
+        str(transform_code),
         output_dir=output_dir,
-        output_format="tsv",
+        output_format=OutputFormat.tsv,
         row_limit=row_limit,
-        verbose=verbose,
     )
+    runner.run()
     
 
 if __name__ == "__main__":

@@ -1,13 +1,14 @@
 import pytest
-from biolink_model.datamodel.pydanticmodel_v2 import DiseaseToPhenotypicFeatureAssociation
-from koza.utils.testing_utils import mock_koza  # noqa: F401
 
-INGEST_NAME = "hpoa_disease_to_phenotype"
-INGEST_CODE = "./src/monarch_phenotype_profile_ingest/disease_to_phenotype_transform.py"
+from biolink_model.datamodel.pydanticmodel_v2 import DiseaseToPhenotypicFeatureAssociation
+from koza import KozaTransform
+from koza.io.writer.passthrough_writer import PassthroughWriter
+
+from monarch_phenotype_profile_ingest.disease_to_phenotype_transform import transform_record
 
 
 @pytest.fixture
-def d2pf_entities_1(mock_koza):
+def d2pf_entities_1():
     row = {
         "database_id": "OMIM:614856",
         "disease_name": "Osteogenesis imperfecta, type XIII",
@@ -22,11 +23,12 @@ def d2pf_entities_1(mock_koza):
         "aspect": "C",  # assert 'Clinical' test record
         "biocuration": "HPO:skoehler[2012-11-16]",
     }
-    return mock_koza(
-        name=INGEST_NAME,
-        data=row,
-        transform_code=INGEST_CODE,
+    koza_transform = KozaTransform(
+        mappings={},
+        writer=PassthroughWriter(),
+        extra_fields={}
     )
+    return transform_record(koza_transform, row)
 
 
 def test_disease_to_phenotype_transform_1(d2pf_entities_1):
@@ -51,7 +53,7 @@ def test_disease_to_phenotype_transform_1(d2pf_entities_1):
 
 
 @pytest.fixture
-def d2pf_entities_2(mock_koza):
+def d2pf_entities_2():
     row = {
         "database_id": "OMIM:117650",
         "disease_name": "Cerebrocostomandibular syndrome",
@@ -66,11 +68,12 @@ def d2pf_entities_2(mock_koza):
         "aspect": "P",
         "biocuration": "HPO:probinson[2009-02-17]",
     }
-    return mock_koza(
-        name=INGEST_NAME,
-        data=row,
-        transform_code=INGEST_CODE,
+    koza_transform = KozaTransform(
+        mappings={},
+        writer=PassthroughWriter(),
+        extra_fields={}
     )
+    return transform_record(koza_transform, row)
 
 
 def test_disease_to_phenotype_transform_2(d2pf_entities_2):
@@ -93,7 +96,7 @@ def test_disease_to_phenotype_transform_2(d2pf_entities_2):
 
 
 @pytest.fixture
-def d2pf_entities_3(mock_koza):
+def d2pf_entities_3():
     row = {
         "database_id": "OMIM:117650",
         "disease_name": "Cerebrocostomandibular syndrome",
@@ -108,11 +111,12 @@ def d2pf_entities_3(mock_koza):
         "aspect": "P",
         "biocuration": "HPO:skoehler[2017-07-13]",
     }
-    return mock_koza(
-        name=INGEST_NAME,
-        data=row,
-        transform_code=INGEST_CODE,
+    koza_transform = KozaTransform(
+        mappings={},
+        writer=PassthroughWriter(),
+        extra_fields={}
     )
+    return transform_record(koza_transform, row)
 
 
 def test_disease_to_phenotype_transform_3(d2pf_entities_3):
@@ -138,7 +142,7 @@ def test_disease_to_phenotype_transform_3(d2pf_entities_3):
 
 
 @pytest.fixture
-def d2pf_frequency_fraction_entities(mock_koza, d2pf_entities_1):
+def d2pf_frequency_fraction_entities():
     row = {
         "database_id": "OMIM:117650",
         "disease_name": "Cerebrocostomandibular syndrome",
@@ -153,11 +157,12 @@ def d2pf_frequency_fraction_entities(mock_koza, d2pf_entities_1):
         "aspect": "P",
         "biocuration": "HPO:skoehler[2017-07-13]",
     }
-    return mock_koza(
-        name=INGEST_NAME,
-        data=row,
-        transform_code=INGEST_CODE,
+    koza_transform = KozaTransform(
+        mappings={},
+        writer=PassthroughWriter(),
+        extra_fields={}
     )
+    return transform_record(koza_transform, row)
 
 
 def test_disease_to_phenotype_transform_frequency_fraction(d2pf_frequency_fraction_entities):
@@ -175,7 +180,7 @@ def test_disease_to_phenotype_transform_frequency_fraction(d2pf_frequency_fracti
 
 
 @pytest.fixture
-def count_zero_entities(mock_koza):
+def count_zero_entities():
     row = {
         'database_id': 'OMIM:615654',
         'disease_name': 'Deafness, autosomal dominant 58',
@@ -190,12 +195,12 @@ def count_zero_entities(mock_koza):
         'aspect': 'P',
         'biocuration': 'HPO:probinson[2024-03-15];HPO:probinson[2024-03-15]',
     }
-
-    return mock_koza(
-        name=INGEST_NAME,
-        data=[row],
-        transform_code=INGEST_CODE,
+    koza_transform = KozaTransform(
+        mappings={},
+        writer=PassthroughWriter(),
+        extra_fields={}
     )
+    return transform_record(koza_transform, row)
 
 
 def test_zero_fraction(count_zero_entities):
@@ -207,7 +212,7 @@ def test_zero_fraction(count_zero_entities):
 
 
 @pytest.fixture
-def orphanet_entities(mock_koza):
+def orphanet_entities():
     row = {
         'database_id': 'ORPHA:79474',
         'disease_name': 'Atypical Werner syndrome',
@@ -222,11 +227,12 @@ def orphanet_entities(mock_koza):
         'aspect': 'P',
         'biocuration': 'ORPHA:orphadata[2024-06-25]',
     }
-    return mock_koza(
-        name=INGEST_NAME,
-        data=[row],
-        transform_code=INGEST_CODE,
+    koza_transform = KozaTransform(
+        mappings={},
+        writer=PassthroughWriter(),
+        extra_fields={}
     )
+    return transform_record(koza_transform, row)
 
 
 def test_orphanet_entities(orphanet_entities):

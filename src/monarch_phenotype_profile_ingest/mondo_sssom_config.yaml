@@ -1,27 +1,28 @@
 name: 'mondo_map'
 
-files:
-  - './data/mondo.sssom.tsv'
+metadata:
+  description: 'Mapping from disease IDs to MONDO IDs using SSSOM file'
 
-format: 'csv'
-delimiter: '\t'
-header: 51
+reader:
+  files:
+    - '../../data/mondo.sssom.tsv'
+  format: 'csv'
+  delimiter: '\t'
+  header_mode: 51
+  columns:
+    - subject_id
+    - subject_label
+    - predicate_id
+    - object_id
+    - object_label
+    - mapping_justification
+  filters:
+    - inclusion: 'include'
+      column: 'predicate_id'
+      filter_code: 'eq'
+      value: 'skos:exactMatch'
 
-filters:
-  - inclusion: 'include'
-    column: 'predicate_id'
-    filter_code: 'eq'
-    value: 'skos:exactMatch'
-
-key: object_id
-
-values:
-  - subject_id
-
-columns:
-  - subject_id
-  - subject_label
-  - predicate_id
-  - object_id
-  - object_label
-  - mapping_justification
+transform:
+  key: object_id
+  values:
+    - subject_id
