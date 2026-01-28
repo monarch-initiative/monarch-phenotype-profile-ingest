@@ -2,16 +2,8 @@
 Tests of HPOA Utils methods
 """
 
-import os
-import sys
 import pytest
 
-# Grab parent directory as string, and then add where our ingest code is located, and lastly add to sytem path
-parent_dir = '/'.join(os.path.dirname(__file__).split('/')[:-1])
-parent_dir = os.path.join(parent_dir, "src/monarch_phenotype_profile_ingest")
-sys.path.append(parent_dir)
-
-# Now that our "system" path recognizes our src/ directory we can import our utils
 from phenotype_ingest_utils import (FrequencyHpoTerm,
                                     get_hpo_term,
                                     phenotype_frequency_to_hpo_term)

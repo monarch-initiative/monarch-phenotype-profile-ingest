@@ -1,137 +1,89 @@
 # monarch-phenotype-profile-ingest
 
-| [Documentation](https://monarch-initiative.github.io/monarch-ingest/Sources/hpoa/) |
+Monarch KG ingest for phenotypes from Human Phenotype Ontology Annotations (HPOA).
 
-monarch kg ingest for phenotypes
+## Overview
+
+This ingest transforms HPOA data into Biolink Model-compliant knowledge graph edges. It produces 4 types of associations:
+
+1. **Gene to Phenotype** - Associations between genes and phenotypic features
+2. **Disease to Phenotype** - Associations between diseases and phenotypic features
+3. **Gene to Disease** - Causal and correlated gene-disease associations
+4. **Disease Mode of Inheritance** - Disease to genetic inheritance mode associations
 
 ## Requirements
 
 - Python >= 3.10
-- [Poetry](https://python-poetry.org/docs/#installation)
-
-## Setting Up a New Project
-
-Upon creating a new project from the `cookiecutter-monarch-ingest` template, you can install and test the project:
-
-```bash
-cd monarch-phenotype-profile-ingest
-make install
-make test
-```
-
-There are a few additional steps to complete before the project is ready for use.
-
-#### GitHub Repository
-
-1. Create a new repository on GitHub.
-1. Enable GitHub Actions to read and write to the repository (required to deploy the project to GitHub Pages).
-   - in GitHub, go to Settings -> Action -> General -> Workflow permissions and choose read and write permissions
-1. Initialize the local repository and push the code to GitHub. For example:
-
-   ```bash
-   cd monarch-phenotype-profile-ingest
-   git init
-   git remote add origin https://github.com/<username>/<repository>.git
-   git add -A && git commit -m "Initial commit"
-   git push -u origin main
-   ```
-
-#### Transform Code and Configuration
-
-1. Edit the `download.yaml`, `transform.py`, `transform.yaml`, and `metadata.yaml` files to suit your needs.
-   - For more information, see the [Koza documentation](https://koza.monarchinitiative.org) and [kghub-downloader](https://github.com/monarch-initiative/kghub-downloader).
-1. Add any additional dependencies to the `pyproject.toml` file.
-1. Adjust the contents of the `tests` directory to test the functionality of your transform.
-
-#### Documentation
-
-1. Update this `README.md` file with any additional information about the project.
-1. Add any appropriate documentation to the `docs` directory.
-
-> **Note:** After the GitHub Actions for deploying documentation runs, the documentation will be automatically deployed to GitHub Pages.  
-> However, you will need to go to the repository settings and set the GitHub Pages source to the `gh-pages` branch, using the `/docs` directory.
-
-#### GitHub Actions
-
-This project is set up with several GitHub Actions workflows.  
-You should not need to modify these workflows unless you want to change the behavior.  
-The workflows are located in the `.github/workflows` directory:
-
-- `test.yaml`: Run the pytest suite.
-- `create-release.yaml`: Create a new release once a week, or manually.
-- `deploy-docs.yaml`: Deploy the documentation to GitHub Pages (on pushes to main).
-- `update-docs.yaml`: After a release, update the documentation with node/edge reports.
-
-
-Once you have completed these steps, you can remove the [Setting Up a New Project](#setting-up-a-new-project) section from this `README.md` file.
+- [uv](https://github.com/astral-sh/uv) (recommended) or pip
+- [just](https://github.com/casey/just) command runner
 
 ## Installation
 
 ```bash
-cd monarch-phenotype-profile-ingest
-make install
-# or
-poetry install
-```
+# Using uv (recommended)
+uv pip install -e ".[dev]"
 
-> **Note** that the `make install` command is just a convenience wrapper around `poetry install`.
-
-Once installed, you can check that everything is working as expected:
-
-```bash
-# Run the pytest suite
-make test
-# Download the data and run the Koza transform
-make download
-make run
+# Or using just
+just install
 ```
 
 ## Usage
 
-This project is set up with a Makefile for common tasks.  
-To see available options:
+This project uses a justfile for common tasks. To see available commands:
 
 ```bash
-make help
+just --list
 ```
 
-### Download and Transform
-
-Download the data for the monarch_phenotype_profile_ingest transform:
+### Full Pipeline
 
 ```bash
-poetry run monarch_phenotype_profile_ingest download
+# Download data, preprocess, and run all transforms
+just run
 ```
 
-To run the Koza transform for monarch-phenotype-profile-ingest:
+### Step by Step
 
 ```bash
-poetry run monarch_phenotype_profile_ingest transform
-```
+# Download source data
+just download
 
-To see available options:
+# Run preprocessing (required for gene_to_phenotype)
+just preprocess
 
-```bash
-poetry run monarch_phenotype_profile_ingest download --help
-# or
-poetry run monarch_phenotype_profile_ingest transform --help
+# Run all transforms
+just transform
+
+# Or run a single transform
+just transform-one disease_to_phenotype
 ```
 
 ### Testing
 
-To run the test suite:
-
 ```bash
-make test
+just test
 ```
 
----
+## Project Structure
 
-> This project was generated using [monarch-initiative/cookiecutter-monarch-ingest](https://github.com/monarch-initiative/cookiecutter-monarch-ingest).  
-> Keep this project up to date using cruft by occasionally running in the project directory:
->
-> ```bash
-> cruft update
-> ```
->
-> For more information, see the [cruft documentation](https://cruft.github.io/cruft/#updating-a-project)
+```
+.
+├── download.yaml          # Data download configuration
+├── justfile               # Task runner commands
+├── pyproject.toml         # Project configuration
+├── src/                   # Transform code (flat structure)
+│   ├── *_transform.py     # Python transform functions
+│   ├── *_transform.yaml   # Koza configurations
+│   └── phenotype_ingest_utils.py
+├── scripts/               # Preprocessing scripts
+│   └── gene_to_phenotype_extras.py
+└── tests/                 # Test files
+```
+
+## Data Sources
+
+- [HPOA genes_to_phenotype.txt](http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt)
+- [HPOA genes_to_disease.txt](http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt)
+- [HPOA phenotype.hpoa](http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa)
+- [Mondo SSSOM mappings](https://data.monarchinitiative.org/mappings/latest/mondo.sssom.tsv)
+- [HP ontology](http://purl.obolibrary.org/obo/hp.obo)

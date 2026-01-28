@@ -1,8 +1,8 @@
-name: 'hpoa_disease_mode_of_inheritance'
+name: 'hpoa_disease_to_phenotype'
 
 reader:
   files:
-    - '../../data/phenotype.hpoa'
+    - 'data/phenotype.hpoa'
   format: 'csv'
   delimiter: '\t'
   header_mode: 4
@@ -23,7 +23,7 @@ reader:
     - inclusion: 'include'
       column: 'aspect'
       filter_code: 'eq'
-      value: 'I'
+      value: 'P'
 
 transform:
   mode: 'flat'
@@ -34,8 +34,16 @@ writer:
     - 'category'
     - 'subject'
     - 'predicate'
+    - 'negated'
     - 'object'
     - 'publications'
+    - 'onset_qualifier'
+    - 'frequency_qualifier'
+    - 'has_count'
+    - 'has_total'
+    - 'has_percentage'
+    - 'has_quotient'
+    - 'sex_qualifier'
     - 'has_evidence'
     - 'aggregator_knowledge_source'
     - 'primary_knowledge_source'

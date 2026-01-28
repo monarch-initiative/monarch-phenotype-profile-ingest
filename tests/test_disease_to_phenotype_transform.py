@@ -4,7 +4,7 @@ from biolink_model.datamodel.pydanticmodel_v2 import DiseaseToPhenotypicFeatureA
 from koza import KozaTransform
 from koza.io.writer.passthrough_writer import PassthroughWriter
 
-from monarch_phenotype_profile_ingest.disease_to_phenotype_transform import transform_record
+from disease_to_phenotype_transform import transform_record
 
 
 @pytest.fixture

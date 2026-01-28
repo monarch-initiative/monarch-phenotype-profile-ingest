@@ -2,7 +2,7 @@ name: 'hpoa_gene_to_disease'
 
 reader:
   files:
-    - '../../data/genes_to_disease.txt'
+    - 'data/genes_to_disease.txt'
   format: 'csv'
   delimiter: '\t'
   columns:

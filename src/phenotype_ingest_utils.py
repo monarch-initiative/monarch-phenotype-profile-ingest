@@ -9,7 +9,7 @@ from pronto import Ontology
 from loguru import logger
 from pydantic import BaseModel
 
-from monarch_phenotype_profile_ingest.monarch_constants import (
+from monarch_constants import (
     INFORES_MEDGEN,
     INFORES_OMIM,
     INFORES_ORPHANET,

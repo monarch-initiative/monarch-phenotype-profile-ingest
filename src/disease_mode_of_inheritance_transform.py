@@ -29,7 +29,7 @@ from biolink_model.datamodel.pydanticmodel_v2 import (
     KnowledgeLevelEnum,
     AgentTypeEnum
 )
-from monarch_phenotype_profile_ingest.phenotype_ingest_utils import (
+from phenotype_ingest_utils import (
     evidence_to_eco,
     read_ontology_to_exclusion_terms
 )
