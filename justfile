@@ -7,16 +7,24 @@ TRANSFORMS := "gene_to_phenotype disease_to_phenotype gene_to_disease disease_mo
 default:
     @just --list
 
+# Install dependencies
+[group('project management')]
+install:
+    uv sync --group dev
+
 # Download data files
-download:
+[group('ingest')]
+download: install
     kghub-downloader download -y download.yaml
 
 # Run preprocessing step
+[group('ingest')]
 preprocess:
     python scripts/gene_to_phenotype_extras.py
 
 # Run all transforms
-transform: preprocess
+[group('ingest')]
+transform-all: preprocess
     #!/usr/bin/env bash
     for t in {{TRANSFORMS}}; do
         echo "Running transform: $t"
@@ -24,21 +32,26 @@ transform: preprocess
     done
 
 # Run a single transform
-transform-one NAME:
+[group('ingest')]
+transform NAME:
     koza transform -s src/{{NAME}}_transform.yaml -o output/{{NAME}}
 
+# Run full pipeline: download, preprocess, transform, test
+[group('ingest')]
+run: download transform-all test
+
 # Run tests
-test:
+[group('development')]
+test: install
     pytest tests/
 
-# Full pipeline: download, preprocess, transform
-run: download transform
+# Run tests with coverage
+[group('development')]
+test-cov: install
+    pytest --cov=. --cov-report=term-missing
 
 # Clean output files
+[group('development')]
 clean:
     rm -rf output/
     rm -f data/genes_to_phenotype_preprocessed.tsv
-
-# Install dependencies
-install:
-    uv pip install -e ".[dev]"
