@@ -10,7 +10,7 @@ default:
 # Install dependencies
 [group('project management')]
 install:
-    uv sync --group dev
+    uv sync
 
 # Download data files
 [group('ingest')]
