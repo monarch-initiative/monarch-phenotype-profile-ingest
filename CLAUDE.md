@@ -13,7 +13,6 @@ This is a Koza-based ingest that transforms Human Phenotype Ontology Annotation 
   - `*_transform.py` - Python transform functions
   - `*_transform.yaml` - Koza transform configurations
   - `phenotype_ingest_utils.py` - Shared utility functions
-  - `monarch_constants.py` - Downloaded constants from monarch-ingest
   - `mondo_sssom_config.yaml` - SSSOM mapping configuration
 - `scripts/` - Preprocessing scripts
   - `gene_to_phenotype_extras.py` - DuckDB-based preprocessing

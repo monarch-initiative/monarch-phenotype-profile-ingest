@@ -21,9 +21,6 @@
 - url: http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa
   local_name: data/phenotype.hpoa
 
-- url: https://raw.githubusercontent.com/monarch-initiative/monarch-ingest/main/src/monarch_ingest/constants.py
-  local_name: src/monarch_phenotype_profile_ingest/monarch_constants.py
-
 # Allows us to filter / select hp terms based on subontology structures
 - url: http://purl.obolibrary.org/obo/hp.obo
   local_name: data/hp.obo
