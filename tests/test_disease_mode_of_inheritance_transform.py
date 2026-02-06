@@ -1,10 +1,21 @@
 import pytest
+from unittest.mock import patch
 
 from biolink_model.datamodel.pydanticmodel_v2 import DiseaseOrPhenotypicFeatureToGeneticInheritanceAssociation
 from koza import KozaTransform
 from koza.io.writer.passthrough_writer import PassthroughWriter
 
 from src.disease_mode_of_inheritance_transform import transform_record
+
+# Mock set of mode-of-inheritance HP terms (avoids loading hp.obo in tests)
+MOCK_MODES_OF_INHERITANCE = {
+    "HP:0000005",  # Mode of inheritance (umbrella)
+    "HP:0000006",  # Autosomal dominant inheritance
+    "HP:0000007",  # Autosomal recessive inheritance
+    "HP:0001417",  # X-linked inheritance (used in test row)
+    "HP:0001423",  # X-linked dominant inheritance
+    "HP:0001419",  # X-linked recessive inheritance
+}
 
 
 @pytest.fixture
@@ -29,7 +40,11 @@ def d2moi_entities():
         writer=PassthroughWriter(),
         extra_fields={}
     )
-    return transform_record(koza_transform, row)
+    with patch(
+        "src.disease_mode_of_inheritance_transform.get_modes_of_inheritance",
+        return_value=MOCK_MODES_OF_INHERITANCE,
+    ):
+        return transform_record(koza_transform, row)
 
 
 def test_disease_to_mode_of_inheritance_transform(d2moi_entities):
