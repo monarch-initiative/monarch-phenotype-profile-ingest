@@ -4,7 +4,7 @@ from biolink_model.datamodel.pydanticmodel_v2 import DiseaseOrPhenotypicFeatureT
 from koza import KozaTransform
 from koza.io.writer.passthrough_writer import PassthroughWriter
 
-from disease_mode_of_inheritance_transform import transform_record
+from src.disease_mode_of_inheritance_transform import transform_record
 
 
 @pytest.fixture

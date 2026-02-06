@@ -2,7 +2,7 @@ name: 'hpoa_disease_mode_of_inheritance'
 
 reader:
   files:
-    - 'data/phenotype.hpoa'
+    - '../data/phenotype.hpoa'
   format: 'csv'
   delimiter: '\t'
   header_mode: 4

@@ -2,10 +2,10 @@ name: 'mondo_map'
 
 reader:
   files:
-    - 'data/mondo.sssom.tsv'
+    - '../data/mondo.sssom.tsv'
   format: 'csv'
   delimiter: '\t'
-  header_mode: 51
+  header_mode: 50
   columns:
     - subject_id
     - subject_label

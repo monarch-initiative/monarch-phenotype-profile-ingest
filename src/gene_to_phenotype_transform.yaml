@@ -2,7 +2,7 @@ name: "hpoa_gene_to_phenotype"
 
 reader:
   files:
-    - 'data/genes_to_phenotype_preprocessed.tsv'
+    - '../data/genes_to_phenotype_preprocessed.tsv'
   format: 'csv'
   delimiter: '\t'
   columns:
@@ -24,7 +24,7 @@ reader:
 transform:
   mode: 'flat'
   mappings:
-    - 'src/mondo_sssom_config.yaml'
+    - 'mondo_sssom_config.yaml'
 
 writer:
   edge_properties:

@@ -7,8 +7,8 @@ from biolink_model.datamodel.pydanticmodel_v2 import (
     KnowledgeLevelEnum,
     AgentTypeEnum
 )
-from monarch_constants import INFORES_MONARCHINITIATIVE, BIOLINK_CAUSES
-from phenotype_ingest_utils import get_knowledge_sources, get_predicate
+from src.monarch_constants import INFORES_MONARCHINITIATIVE, BIOLINK_CAUSES
+from src.phenotype_ingest_utils import get_knowledge_sources, get_predicate
 
 
 @koza.transform_record()

@@ -4,7 +4,7 @@ Tests of HPOA Utils methods
 
 import pytest
 
-from phenotype_ingest_utils import (FrequencyHpoTerm,
+from src.phenotype_ingest_utils import (FrequencyHpoTerm,
                                     get_hpo_term,
                                     phenotype_frequency_to_hpo_term)
 

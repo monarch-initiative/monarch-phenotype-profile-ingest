@@ -1,10 +1,13 @@
 # monarch-phenotype-profile-ingest justfile
 
-# Configuration
-TRANSFORMS := "gene_to_phenotype disease_to_phenotype gene_to_disease disease_mode_of_inheritance"
+# Package directory
+PKG := "src"
 
-# Default recipe
-default:
+# Explicitly enumerate transforms (add new ingests here)
+TRANSFORMS := "gene_to_phenotype_transform disease_to_phenotype_transform gene_to_disease_transform disease_mode_of_inheritance_transform"
+
+# List all commands
+_default:
     @just --list
 
 # Install dependencies
@@ -12,46 +15,49 @@ default:
 install:
     uv sync
 
-# Download data files
+# Download source data
 [group('ingest')]
 download: install
-    kghub-downloader download -y download.yaml
+    uv run downloader download.yaml
 
 # Run preprocessing step
 [group('ingest')]
 preprocess:
-    python scripts/gene_to_phenotype_extras.py
+    uv run python scripts/gene_to_phenotype_extras.py
 
 # Run all transforms
 [group('ingest')]
-transform-all: preprocess
+transform-all: download preprocess
     #!/usr/bin/env bash
+    set -euo pipefail
     for t in {{TRANSFORMS}}; do
-        echo "Running transform: $t"
-        koza transform -s src/${t}_transform.yaml -o output/${t}
+        if [ -n "$t" ]; then
+            echo "Transforming $t..."
+            uv run koza transform {{PKG}}/$t.yaml
+        fi
     done
 
-# Run a single transform
+# Run specific transform
 [group('ingest')]
 transform NAME:
-    koza transform -s src/{{NAME}}_transform.yaml -o output/{{NAME}}
+    uv run koza transform {{PKG}}/{{NAME}}.yaml
 
 # Run full pipeline: download, preprocess, transform, test
 [group('ingest')]
-run: download transform-all test
+run: transform-all test
 
 # Run tests
 [group('development')]
 test: install
-    pytest tests/
+    uv run pytest
 
 # Run tests with coverage
 [group('development')]
 test-cov: install
-    pytest --cov=. --cov-report=term-missing
+    uv run pytest --cov=. --cov-report=term-missing
 
 # Clean output files
-[group('development')]
+[group('ingest')]
 clean:
     rm -rf output/
     rm -f data/genes_to_phenotype_preprocessed.tsv

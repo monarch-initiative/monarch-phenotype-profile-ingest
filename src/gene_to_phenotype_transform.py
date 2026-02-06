@@ -8,7 +8,7 @@ from biolink_model.datamodel.pydanticmodel_v2 import (
     GeneToPhenotypicFeatureAssociation,
     KnowledgeLevelEnum,
 )
-from phenotype_ingest_utils import Frequency, phenotype_frequency_to_hpo_term
+from src.phenotype_ingest_utils import Frequency, phenotype_frequency_to_hpo_term
 
 # TO DO: Once biolink is updated with the disease_context_qualifier slot we need to update the association we make
 # https://github.com/biolink/biolink-model/pull/1524
