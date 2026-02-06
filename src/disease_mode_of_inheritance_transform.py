@@ -29,14 +29,23 @@ from biolink_model.datamodel.pydanticmodel_v2 import (
     KnowledgeLevelEnum,
     AgentTypeEnum
 )
-from monarch_phenotype_profile_ingest.phenotype_ingest_utils import (
+from src.phenotype_ingest_utils import (
     evidence_to_eco,
     read_ontology_to_exclusion_terms
 )
 from loguru import logger
 
-# Read hpo mode of inheritance terms into memory using pronto + hp.obo file + HP:0000005 (Mode of Inheritance)
-modes_of_inheritance = read_ontology_to_exclusion_terms("data/hp.obo", umbrella_term="HP:0000005", include=True)
+_modes_of_inheritance = None
+
+
+def get_modes_of_inheritance():
+    """Load HP mode of inheritance terms on first access."""
+    global _modes_of_inheritance
+    if _modes_of_inheritance is None:
+        _modes_of_inheritance = read_ontology_to_exclusion_terms(
+            "data/hp.obo", umbrella_term="HP:0000005", include=True
+        )
+    return _modes_of_inheritance
 
 
 @koza.transform_record()
@@ -47,7 +56,7 @@ def transform_record(koza_transform, row):
 
     # We ignore records that don't map to a known HPO term for Genetic Inheritance
     # (as recorded in the locally bound 'hpoa-modes-of-inheritance' table)
-    if hpo_id and hpo_id in modes_of_inheritance:
+    if hpo_id and hpo_id in get_modes_of_inheritance():
 
         # Nodes
 

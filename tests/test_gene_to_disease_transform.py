@@ -5,17 +5,18 @@ from biolink_model.datamodel.pydanticmodel_v2 import CausalGeneToDiseaseAssociat
 from koza import KozaTransform
 from koza.io.writer.passthrough_writer import PassthroughWriter
 
-from monarch_phenotype_profile_ingest.phenotype_ingest_utils import get_knowledge_sources, get_predicate
-from monarch_phenotype_profile_ingest.monarch_constants import (
+from src.phenotype_ingest_utils import (
+    get_knowledge_sources,
+    get_predicate,
     BIOLINK_CAUSES,
     BIOLINK_CONTRIBUTES_TO,
     BIOLINK_GENE_ASSOCIATED_WITH_CONDITION,
     INFORES_MEDGEN,
     INFORES_MONARCHINITIATIVE,
     INFORES_OMIM,
-    INFORES_ORPHANET
+    INFORES_ORPHANET,
 )
-from monarch_phenotype_profile_ingest.gene_to_disease_transform import transform_record
+from src.gene_to_disease_transform import transform_record
 
 
 @pytest.mark.parametrize(

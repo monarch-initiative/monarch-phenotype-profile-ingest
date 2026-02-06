@@ -1,80 +1,61 @@
-[tool.poetry]
-name = "monarch_phenotype_profile_ingest"
+[project]
+name = "monarch-phenotype-profile-ingest"
 version = "0.0.0"
-description = "monarch kg ingest for phenotypes"
-authors = ["Aaron Odell <aaron@tislab.org>"]
-license = "MIT"
+description = "Monarch KG ingest for phenotypes from HPOA"
 readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "koza>=2.0.0",
+    "kghub-downloader>=0.3.8",
+    "biolink-model>=4.2.5rc2",
+    "duckdb>=0.10.2",
+    "loguru",
+    "pronto>=2.4.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-importlib-metadata = ">=4.8.0"
-koza = "^2.0.0"
-kghub-downloader = "0.3.8"
-kgx = ">=2.4.0"
-biolink-model = "4.2.5rc2"
-duckdb = ">=0.10.2"
-loguru = "*"
-pronto = "^2.4.0"
-linkml = "1.9.2"
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.1.1",
+    "ruff",
+]
 
-[tool.poetry.group.dev]
-optional = true
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.group.dev.dependencies]
-pytest = ">=8.1.1"
-mkdocs = ">=1.4"
-mkdocs-material = ">=9.5"
-mkdocs-macros-plugin = "*"
-black = "*"
-ruff = "*"
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
 
-[tool.poetry.scripts]
-ingest = "monarch_phenotype_profile_ingest.cli:app"
-
-[tool.poetry-dynamic-versioning]
-enable = true
-vcs = "git"
-style = "pep440"
-
-[tool.black]
-line-length = 120
-skip-string-normalization = true
+[tool.pytest.ini_options]
 
 [tool.ruff]
 line-length = 120
+
+[tool.ruff.lint]
 ignore = [
-    "D100", # `missing-module-docstring`
-    "D101", # `missing-function-docstring`
-    "D102", # `missing-method-docstring`
-    "D103", # `missing-class-docstring`
-    "D211", # `no-blank-line-before-class`
-    "D212", # `multi-line-summary-first-line`
-    "D203", # `blank-line-before-docstring`
-    "F541", # f-strings with no placeholders
-    "S101", # Use of assert detected
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D211",
+    "D212",
+    "D203",
+    "F541",
+    "S101",
 ]
-# Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
-# Select or ignore from https://beta.ruff.rs/docs/rules/
 select = [
-    "B", # bugbear
-    "D", # pydocstyle
-    "E", # pycodestyle errors
-    "F", # Pyflakes
-    "I", # isort
-    "S", # flake8-bandit
-    "W", # Warning
+    "B",
+    "D",
+    "E",
+    "F",
+    "I",
+    "S",
+    "W",
 ]
-unfixable = []
-target-version = "py310"
 
 [tool.codespell]
 skip = "*.po,*.ts,.git,pyproject.toml"
 count = ""
 quiet-level = 3
-# ignore-words-list = ""
-
-[build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
-build-backend = "poetry_dynamic_versioning.backend"

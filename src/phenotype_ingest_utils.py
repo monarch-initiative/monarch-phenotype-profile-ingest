@@ -9,14 +9,16 @@ from pronto import Ontology
 from loguru import logger
 from pydantic import BaseModel
 
-from monarch_phenotype_profile_ingest.monarch_constants import (
-    INFORES_MEDGEN,
-    INFORES_OMIM,
-    INFORES_ORPHANET,
-    BIOLINK_CAUSES,
-    BIOLINK_CONTRIBUTES_TO,
-    BIOLINK_GENE_ASSOCIATED_WITH_CONDITION
-)
+# Knowledge sources
+INFORES_MONARCHINITIATIVE = "infores:monarchinitiative"
+INFORES_OMIM = "infores:omim"
+INFORES_ORPHANET = "infores:orphanet"
+INFORES_MEDGEN = "infores:medgen"
+
+# Predicates
+BIOLINK_CAUSES = "biolink:causes"
+BIOLINK_CONTRIBUTES_TO = "biolink:contributes_to"
+BIOLINK_GENE_ASSOCIATED_WITH_CONDITION = "biolink:gene_associated_with_condition"
 
 
 # Evidence Code translations - https://www.ebi.ac.uk/ols4/ontologies/eco

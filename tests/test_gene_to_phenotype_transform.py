@@ -4,7 +4,7 @@ from biolink_model.datamodel.pydanticmodel_v2 import GeneToPhenotypicFeatureAsso
 from koza import KozaTransform
 from koza.io.writer.passthrough_writer import PassthroughWriter
 
-from monarch_phenotype_profile_ingest.gene_to_phenotype_transform import transform_record
+from src.gene_to_phenotype_transform import transform_record
 
 
 @pytest.fixture
