@@ -37,6 +37,12 @@ transform-all: download preprocess
         fi
     done
 
+# Emit output/release-metadata.yaml describing this build's upstream sources and artifacts
+[group('ingest')]
+metadata:
+    uv run python scripts/write_metadata.py
+
+
 # Run specific transform
 [group('ingest')]
 transform NAME:
