@@ -48,9 +48,9 @@ metadata:
 transform NAME:
     uv run koza transform {{PKG}}/{{NAME}}.yaml
 
-# Run full pipeline: download, preprocess, transform, test
+# Run full pipeline: download, preprocess, transform, test, metadata
 [group('ingest')]
-run: transform-all test
+run: transform-all test metadata
 
 # Run tests
 [group('development')]
