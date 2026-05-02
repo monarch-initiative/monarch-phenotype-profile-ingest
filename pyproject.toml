@@ -12,9 +12,14 @@ dependencies = [
     "duckdb>=0.10.2",
     "loguru",
     "pronto>=2.4.0",
+    "kozahub-metadata-schema",
+    "requests>=2.28.0",
 ]
 
-[project.optional-dependencies]
+[tool.uv.sources]
+kozahub-metadata-schema = { git = "https://github.com/monarch-initiative/kozahub-metadata-schema", rev = "main" }
+
+[dependency-groups]
 dev = [
     "pytest>=8.1.1",
     "ruff",
