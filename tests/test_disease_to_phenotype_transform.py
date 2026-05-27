@@ -240,3 +240,46 @@ def test_orphanet_entities(orphanet_entities):
     assert len(entities) == 1
     association = [entity for entity in entities if isinstance(entity, DiseaseToPhenotypicFeatureAssociation)][0]
     assert association.primary_knowledge_source == "infores:orphanet"
+
+
+def _evidence_row(evidence_code):
+    return {
+        "database_id": "OMIM:615654",
+        "disease_name": "Deafness, autosomal dominant 58",
+        "qualifier": "",
+        "hpo_id": "HP:0007663",
+        "reference": "PMID:32337552",
+        "evidence": evidence_code,
+        "onset": "",
+        "frequency": "",
+        "sex": "",
+        "modifier": "",
+        "aspect": "P",
+        "biocuration": "HPO:probinson[2024-03-15]",
+    }
+
+
+def _transform_evidence(evidence_code):
+    koza_transform = KozaTransform(
+        mappings={},
+        writer=PassthroughWriter(),
+        extra_fields={}
+    )
+    return transform_record(koza_transform, _evidence_row(evidence_code))
+
+
+# Regression test for monarch-app#827: HPOA 3-letter evidence codes must map to
+# the post-2016 ECO classes (matching ECO's exact HPO: synonyms).
+@pytest.mark.parametrize(
+    "evidence_code, expected_eco",
+    [
+        ("IEA", "ECO:0000501"),
+        ("PCS", "ECO:0006017"),
+        ("TAS", "ECO:0000304"),
+        ("ICE", "ECO:0006019"),
+    ],
+)
+def test_evidence_code_to_eco(evidence_code, expected_eco):
+    entities = _transform_evidence(evidence_code)
+    association = [entity for entity in entities if isinstance(entity, DiseaseToPhenotypicFeatureAssociation)][0]
+    assert association.has_evidence == [expected_eco]
