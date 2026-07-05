@@ -24,7 +24,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Install just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v3
 
       - name: Install Dependencies
         run: uv pip install --system -e "."
