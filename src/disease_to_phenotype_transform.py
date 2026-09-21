@@ -25,7 +25,6 @@ poetry run koza transform \
 """
 
 from typing import Optional, List
-import uuid
 
 import koza
 from biolink_model.datamodel.pydanticmodel_v2 import (
@@ -97,7 +96,6 @@ def transform_record(koza_transform, row):
 
     # Association/Edge
     association = DiseaseToPhenotypicFeatureAssociation(
-        id="uuid:" + str(uuid.uuid1()),
         subject=disease_id.replace("ORPHA:", "Orphanet:"),  # match `Orphanet` as used in Mondo SSSOM
         predicate=predicate,
         negated=negated,

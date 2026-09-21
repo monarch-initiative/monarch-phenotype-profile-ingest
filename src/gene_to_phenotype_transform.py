@@ -1,6 +1,5 @@
 # For generating UUIDs for associations
 import re
-import uuid
 
 import koza
 from biolink_model.datamodel.pydanticmodel_v2 import (
@@ -42,7 +41,6 @@ def transform_record(koza_transform, row):
     publications = [pub.strip() for pub in row["publications"].split(";")] if row["publications"] else []
 
     association = GeneToPhenotypicFeatureAssociation(
-        id="uuid:" + str(uuid.uuid1()),
         subject=gene_id,
         predicate="biolink:has_phenotype",
         object=phenotype_id,
