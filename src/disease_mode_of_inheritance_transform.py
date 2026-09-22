@@ -21,7 +21,6 @@ poetry run koza transform \
 """
 
 from typing import List
-import uuid
 
 import koza
 from biolink_model.datamodel.pydanticmodel_v2 import (
@@ -80,7 +79,6 @@ def transform_record(koza_transform, row):
 
         # Association/Edge
         association = DiseaseOrPhenotypicFeatureToGeneticInheritanceAssociation(
-            id="uuid:" + str(uuid.uuid1()),
             subject=disease_id,
             predicate=predicate,
             object=hpo_id,

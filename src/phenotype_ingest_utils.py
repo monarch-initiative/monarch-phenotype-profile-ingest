@@ -18,7 +18,7 @@ INFORES_MEDGEN = "infores:medgen"
 # Predicates
 BIOLINK_CAUSES = "biolink:causes"
 BIOLINK_CONTRIBUTES_TO = "biolink:contributes_to"
-BIOLINK_GENE_ASSOCIATED_WITH_CONDITION = "biolink:gene_associated_with_condition"
+BIOLINK_ASSOCIATED_WITH = "biolink:associated_with"
 
 
 # Evidence Code translations - https://www.ebi.ac.uk/ols4/ontologies/eco
@@ -194,7 +194,7 @@ def get_predicate(original_predicate: str) -> str:
     elif original_predicate == 'POLYGENIC':
         return BIOLINK_CONTRIBUTES_TO
     elif original_predicate == 'UNKNOWN':
-        return BIOLINK_GENE_ASSOCIATED_WITH_CONDITION
+        return BIOLINK_ASSOCIATED_WITH
     else:
         raise ValueError(f"Unknown predicate: {original_predicate}")
 
