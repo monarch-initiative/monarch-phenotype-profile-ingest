@@ -1,9 +1,8 @@
-import uuid
 
 import koza
 from biolink_model.datamodel.pydanticmodel_v2 import (
     CausalGeneToDiseaseAssociation,
-    CorrelatedGeneToDiseaseAssociation,
+    GeneToDiseaseAssociation,
     KnowledgeLevelEnum,
     AgentTypeEnum
 )
@@ -32,10 +31,9 @@ def transform_record(koza_transform, row):
     if predicate == BIOLINK_CAUSES:
         association_class = CausalGeneToDiseaseAssociation
     else:
-        association_class = CorrelatedGeneToDiseaseAssociation
+        association_class = GeneToDiseaseAssociation
 
     association = association_class(
-        id="uuid:" + str(uuid.uuid1()),
         subject=gene_id,
         predicate=predicate,
         object=disease_id,

@@ -1,7 +1,7 @@
 import pytest
 
 from typing import List
-from biolink_model.datamodel.pydanticmodel_v2 import CausalGeneToDiseaseAssociation
+from biolink_model.datamodel.pydanticmodel_v2 import CausalGeneToDiseaseAssociation, GeneToDiseaseAssociation
 from koza import KozaTransform
 from koza.io.writer.passthrough_writer import PassthroughWriter
 
@@ -10,7 +10,7 @@ from src.phenotype_ingest_utils import (
     get_predicate,
     BIOLINK_CAUSES,
     BIOLINK_CONTRIBUTES_TO,
-    BIOLINK_GENE_ASSOCIATED_WITH_CONDITION,
+    BIOLINK_ASSOCIATED_WITH,
     INFORES_MEDGEN,
     INFORES_MONARCHINITIATIVE,
     INFORES_OMIM,
@@ -46,7 +46,7 @@ def test_knowledge_source(
     [
         ("MENDELIAN", BIOLINK_CAUSES),
         ("POLYGENIC", BIOLINK_CONTRIBUTES_TO),
-        ("UNKNOWN", BIOLINK_GENE_ASSOCIATED_WITH_CONDITION),
+        ("UNKNOWN", BIOLINK_ASSOCIATED_WITH),
     ],
 )
 def test_predicate(association: str, expected_predicate: str):
@@ -85,3 +85,22 @@ def test_hpoa_gene_to_disease(basic_g2d_entities):
     assert association.predicate == "biolink:causes"
     assert association.primary_knowledge_source == "infores:omim"
     assert association.aggregator_knowledge_source.sort() == ["infores:medgen", "infores:monarchinitiative"].sort()
+
+
+@pytest.mark.parametrize(
+    ("association_type", "expected_class", "expected_predicate"),
+    [
+        ("MENDELIAN", CausalGeneToDiseaseAssociation, BIOLINK_CAUSES),
+        ("POLYGENIC", GeneToDiseaseAssociation, BIOLINK_CONTRIBUTES_TO),
+        ("UNKNOWN", GeneToDiseaseAssociation, BIOLINK_ASSOCIATED_WITH),
+    ],
+)
+def test_association_class_by_type(row, association_type, expected_class, expected_predicate):
+    """Non-causal rows use the parent GeneToDiseaseAssociation, whose predicate enum admits
+    contributes_to and associated_with; the Correlated subclass is closed to correlated_with."""
+    row = {**row, "association_type": association_type}
+    koza_transform = KozaTransform(mappings={}, writer=PassthroughWriter(), extra_fields={})
+    (association,) = transform_record(koza_transform, row)
+    assert type(association) is expected_class
+    assert association.predicate == expected_predicate
+    assert association.id.startswith("uuid:")
