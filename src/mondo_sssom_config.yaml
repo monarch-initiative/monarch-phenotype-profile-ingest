@@ -5,7 +5,6 @@ reader:
     - '../data/mondo.sssom.tsv'
   format: 'csv'
   delimiter: '\t'
-  header_mode: 50
   columns:
     - subject_id
     - subject_label
