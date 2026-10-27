@@ -48,9 +48,14 @@ metadata:
 transform NAME:
     uv run koza transform {{PKG}}/{{NAME}}.yaml
 
-# Run full pipeline: download, preprocess, transform, test, metadata
+# Check the transform outputs for content regressions (fails the release if an expectation is not met)
 [group('ingest')]
-run: transform-all test metadata
+qc:
+    uv run python scripts/qc_output.py output
+
+# Run full pipeline: download, preprocess, transform, qc, test, metadata
+[group('ingest')]
+run: transform-all qc test metadata
 
 # Run tests
 [group('development')]

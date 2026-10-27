@@ -17,6 +17,7 @@ This is a Koza-based ingest that transforms Human Phenotype Ontology Annotation 
   - `versions.py` - Per-ingest upstream version fetcher (consumed by `just metadata`)
 - `scripts/` - Utility scripts
   - `gene_to_phenotype_extras.py` - DuckDB-based preprocessing
+  - `qc_output.py` - Post-transform output checks (e.g. g2p disease_context_qualifier must be MONDO-mapped); `just qc`, part of `just run`
   - `write_metadata.py` - Emits `output/release-metadata.yaml` from `versions.py`
 - `tests/` - Pytest test files
 - `output/` - Generated nodes and edges (gitignored)
@@ -38,6 +39,7 @@ Using the justfile:
 - `just preprocess` - Run preprocessing (creates genes_to_phenotype_preprocessed.tsv)
 - `just transform` - Run all transforms (includes preprocessing)
 - `just transform-one NAME` - Run a single transform
+- `just qc` - Check output files against expectations in `scripts/qc_output.py` (fails the release workflow on regression)
 - `just metadata` - Emit `output/release-metadata.yaml`
 - `just test` - Run tests
 - `just run` - Full pipeline
