@@ -1,0 +1,40 @@
+name: 'orphanet_gene_to_disease'
+
+# Reads the flattened Orphanet product 6 file written by scripts/orphanet_gene_to_disease_extras.py
+reader:
+  files:
+    - '../data/orphanet_gene_to_disease.tsv'
+  format: 'csv'
+  delimiter: '\t'
+  columns:
+    - 'disease_id'
+    - 'disease_name'
+    - 'disorder_type'
+    - 'gene_symbol'
+    - 'gene_name'
+    - 'gene_type'
+    - 'hgnc_id'
+    - 'ncbi_gene_id'
+    - 'ensembl_gene_id'
+    - 'omim_gene_id'
+    - 'association_type'
+    - 'association_status'
+    - 'association_type_code'
+    - 'publications'
+
+writer:
+  edge_properties:
+    - 'id'
+    - 'category'
+    - 'subject'
+    - 'predicate'
+    - 'object'
+    - 'original_subject'
+    - 'original_predicate'
+    - 'qualifiers'
+    - 'subject_form_or_variant_qualifier'
+    - 'publications'
+    - 'aggregator_knowledge_source'
+    - 'primary_knowledge_source'
+    - 'knowledge_level'
+    - 'agent_type'
