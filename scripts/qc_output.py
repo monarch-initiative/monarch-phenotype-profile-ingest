@@ -37,6 +37,15 @@ EXPECTATIONS: list[PrefixExpectation] = [
         why="OMIM/ORPHA disease ids are mapped to MONDO through mondo_sssom_config.yaml; "
         "a low fraction means the SSSOM mapping was not applied (e.g. header mis-parsed).",
     ),
+    PrefixExpectation(
+        file="orphanet_gene_to_disease_edges.tsv",
+        column="predicate",
+        prefix="biolink:causes",
+        min_fraction=0.70,
+        why="About 83% of Orphanet product 6 associations are Assessed disease-causing mutations and must come "
+        "through as biolink:causes; a low fraction means the association type/status mapping regressed "
+        "(the pre-product-6 HPOA path typed every Orphanet row UNKNOWN).",
+    ),
 ]
 
 
