@@ -342,6 +342,8 @@ def test_hgnc_gene_map(product6_files):
     assert gene_map.lookup("", "FDFT1") == "NCBIGene:2222"
     # withdrawn HGNC id, unknown symbol
     assert gene_map.lookup("HGNC:32944", "SPG34") is None
+    # a withdrawn HGNC id never falls back to the symbol: it may have been reassigned
+    assert gene_map.lookup("HGNC:32944", "KIF7") is None
     # entry without an entrez id is not mapped
     assert gene_map.lookup("HGNC:99999", "NOENTREZ") is None
 

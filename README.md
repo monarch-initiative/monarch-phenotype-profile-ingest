@@ -11,7 +11,7 @@ The [Human Phenotype Ontology](http://human-phenotype-ontology.org) group curate
 - [HPOA genes_to_phenotype.txt](http://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt)
 - [HPOA genes_to_disease.txt](http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt) (OMIM association types for the gene-to-phenotype preprocess)
 - [Orphanet product 6, en_product6.xml](https://www.orphadata.com/data/xml/en_product6.xml) (genes associated with rare diseases, CC BY 4.0)
-- [HGNC complete set](http://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt) (to resolve Orphanet genes to NCBIGene ids)
+- [HGNC complete set](https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt) (to resolve Orphanet genes to NCBIGene ids)
 - [HPOA phenotype.hpoa](http://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa)
 - [Mondo SSSOM mappings](https://data.monarchinitiative.org/mappings/latest/mondo.sssom.tsv) (for disease ID normalization)
 - [HP ontology](http://purl.obolibrary.org/obo/hp.obo) (for inheritance term validation)

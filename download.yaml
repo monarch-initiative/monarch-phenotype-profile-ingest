@@ -21,7 +21,7 @@
   local_name: data/en_product6.xml
 
 # HGNC complete set, to resolve product 6 HGNC ids / symbols to NCBIGene ids
-- url: http://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt
+- url: https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt
   local_name: data/hgnc_complete_set.txt
 
 

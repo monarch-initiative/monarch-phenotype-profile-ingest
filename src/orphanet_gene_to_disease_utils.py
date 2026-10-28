@@ -191,10 +191,17 @@ class HgncGeneMap:
                     self.by_symbol[symbol] = ncbi_gene_id
 
     def lookup(self, hgnc_id: Optional[str], symbol: Optional[str]) -> Optional[str]:
-        if hgnc_id and hgnc_id in self.by_hgnc_id:
-            return self.by_hgnc_id[hgnc_id]
-        if symbol and symbol in self.by_symbol:
-            return self.by_symbol[symbol]
+        """
+        Resolve a product 6 gene to an NCBIGene id.
+
+        The HGNC id is authoritative. The symbol is only consulted when product 6 gives no
+        HGNC id at all: an HGNC id that is absent from the complete set is withdrawn or
+        merged, and its symbol may since have been reassigned to a different gene.
+        """
+        if hgnc_id:
+            return self.by_hgnc_id.get(hgnc_id)
+        if symbol:
+            return self.by_symbol.get(symbol)
         return None
 
 

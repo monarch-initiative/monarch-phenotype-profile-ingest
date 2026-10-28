@@ -1,8 +1,12 @@
-import pytest
+from pathlib import Path
 
+import pytest
+import yaml
 from biolink_model.datamodel.pydanticmodel_v2 import GeneToPhenotypicFeatureAssociation
 from koza import KozaTransform
 from koza.io.writer.passthrough_writer import PassthroughWriter
+from koza.model.reader import CSVReaderConfig
+from koza.utils.row_filter import RowFilter
 
 from src.gene_to_phenotype_transform import transform_record
 
@@ -189,3 +193,33 @@ def test_hpoa_g2p_association_v3(basic_hpoa_v3):
     assert association.disease_context_qualifier == "OMIM:613287"
     assert "infores:monarchinitiative" in association.aggregator_knowledge_source
     assert association.publications == ["PMID:1234567", "PMID:2345678"]
+
+
+G2P_CONFIG = Path(__file__).resolve().parents[1] / "src" / "gene_to_phenotype_transform.yaml"
+
+
+def test_yaml_filter_keeps_only_pairs_with_a_mendelian_g2d_type():
+    """
+    Guard the yaml filter that selects Mendelian g2p rows.
+
+    The preprocess step joins all g2d codes of a gene-disease pair into one sorted ';'-list
+    (BRAF is MENDELIAN;SOMATIC in Orphanet). The yaml filter must keep such rows and drop
+    pairs whose only codes are non-Mendelian, which relies on koza's `in` substring semantics.
+    """
+    reader = yaml.safe_load(G2P_CONFIG.read_text())["reader"]
+    reader.pop("files")
+    reader.pop("format", None)
+    row_filter = RowFilter(CSVReaderConfig(**reader).filters)
+
+    def kept(types: str) -> bool:
+        return row_filter.include_row({"gene_to_disease_association_types": types})
+
+    assert kept("MENDELIAN")
+    assert kept("MENDELIAN;SOMATIC")
+    assert kept("MENDELIAN;POLYGENIC")
+    assert kept("POLYGENIC;MENDELIAN;UNKNOWN")
+    assert not kept("SOMATIC")
+    assert not kept("POLYGENIC")
+    assert not kept("UNKNOWN")
+    assert not kept("POLYGENIC;UNKNOWN")
+    assert not kept("")
