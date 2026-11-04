@@ -12,9 +12,17 @@
   local_name: data/mondo.sssom.tsv
 
 
-# For genes_to_disease
+# For the gene_to_phenotype preprocess (OMIM MENDELIAN/POLYGENIC types; Orphanet types come from product 6 below)
 - url: http://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt
   local_name: data/genes_to_disease.txt
+
+# For orphanet_gene_to_disease: Orphanet product 6, genes associated with rare diseases (CC BY 4.0)
+- url: https://www.orphadata.com/data/xml/en_product6.xml
+  local_name: data/en_product6.xml
+
+# HGNC complete set, to resolve product 6 HGNC ids / symbols to NCBIGene ids
+- url: https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt
+  local_name: data/hgnc_complete_set.txt
 
 
 # For disease_to_phenotype and mode of inheritance

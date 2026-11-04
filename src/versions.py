@@ -1,14 +1,18 @@
-"""Upstream source version fetcher for monarch-phenotype-profile-ingest.
+"""
+Upstream source version fetcher for monarch-phenotype-profile-ingest.
 
-Three top-level sources:
-  - infores:hpoa  — HPO annotation files (phenotype.hpoa carries `#version:` header)
-  - infores:hp    — the HP ontology .obo (HTTP Last-Modified)
-  - infores:mondo — Mondo SSSOM mapping (HTTP Last-Modified)
+Five top-level sources:
+  - infores:hpoa     — HPO annotation files (phenotype.hpoa carries `#version:` header)
+  - infores:orphanet — Orphanet product 6 gene-disease associations, retrieved directly
+                       (en_product6.xml carries a `<JDBOR date="...">` root attribute)
+  - infores:hgnc     — HGNC complete set, used to resolve product 6 genes to NCBIGene (HTTP Last-Modified)
+  - infores:hp       — the HP ontology .obo (HTTP Last-Modified)
+  - infores:mondo    — Mondo SSSOM mapping (HTTP Last-Modified)
 
 Nested under infores:hpoa, one SourceVersion per contributing primary source
 (OMIM, Orphanet, DECIPHER) — discovered from the `#description:` header line
 of phenotype.hpoa. Edges in this ingest's output carry per-row
-`primary_knowledge_source` (see src/phenotype_ingest_utils.py::get_knowledge_sources),
+`primary_knowledge_source` (see src/disease_to_phenotype_transform.py),
 so a downstream consumer (e.g. monarch-app) can resolve an edge's exact
 upstream version even though everything was retrieved via HPOA.
 
@@ -34,7 +38,6 @@ from kozahub_metadata_schema import (
     version_from_http_last_modified,
 )
 
-
 INGEST_DIR = Path(__file__).resolve().parents[1]
 DOWNLOAD_YAML = INGEST_DIR / "download.yaml"
 DATA_DIR = INGEST_DIR / "data"
@@ -49,9 +52,26 @@ HPOA_SUB_SOURCES = {
 
 _BIOCURATION_DATE = re.compile(r"\[(\d{4}-\d{2}-\d{2})\]")
 
+# en_product6.xml root: <JDBOR date="2026-06-23 07:57:31" version="1.3.42 / 4.1.8 [2025-03-03]" ...>
+_ORPHANET_JDBOR_DATE = r'<JDBOR[^>]*\bdate="(\d{4}-\d{2}-\d{2})'
+
+
+def _orphanet_product6_version(xml_file: Path) -> tuple[str, str]:
+    """
+    Version Orphanet product 6 by the export date on its JDBOR root element.
+
+    The XML prologue and root tag are the first two lines and both start with `<`,
+    so the generic header scanner (which stops at the first non-prefixed line)
+    reaches the root attribute before descending into the document body.
+    """
+    if not xml_file.is_file():
+        return "unknown", "unavailable"
+    return version_from_file_header(xml_file, pattern=_ORPHANET_JDBOR_DATE, comment_prefix="<")
+
 
 def _scan_hpoa(hpoa_file: Path) -> tuple[str, dict[str, str]]:
-    """Read phenotype.hpoa once. Return (description_line, {row_prefix: max_date}).
+    """
+    Read phenotype.hpoa once. Return (description_line, {row_prefix: max_date}).
 
     `description_line` is the `#description:` header (used to discover which
     sub-sources are present). The dict maps `database_id` row prefix
@@ -78,7 +98,8 @@ def _scan_hpoa(hpoa_file: Path) -> tuple[str, dict[str, str]]:
 
 
 def _hpoa_sub_sources(hpoa_file: Path, hpoa_url: str, hpoa_version: str, now: str) -> list[dict[str, Any]]:
-    """Discover contributing sources from phenotype.hpoa and version each by
+    """
+    Discover contributing sources from phenotype.hpoa and version each by
     its most recent biocuration date.
 
     Falls back to the HPOA bundle version (`hpoa_bundle`) for a discovered
@@ -117,6 +138,8 @@ def get_source_versions() -> list[dict[str, Any]]:
     hpoa_urls = urls_from_download_yaml(DOWNLOAD_YAML, contains=["obo/hp/hpoa"])
     hp_urls = urls_from_download_yaml(DOWNLOAD_YAML, contains=["obo/hp.obo"])
     mondo_urls = urls_from_download_yaml(DOWNLOAD_YAML, contains=["data.monarchinitiative.org/mappings"])
+    orphanet_urls = urls_from_download_yaml(DOWNLOAD_YAML, contains=["orphadata.com"])
+    hgnc_urls = urls_from_download_yaml(DOWNLOAD_YAML, contains=["hgnc_complete_set"])
     now = now_iso()
 
     sources: list[dict[str, Any]] = []
@@ -142,6 +165,28 @@ def get_source_versions() -> list[dict[str, Any]]:
         if nested:
             entry["sources"] = nested
         sources.append(entry)
+
+    if orphanet_urls:
+        ver, method = _orphanet_product6_version(DATA_DIR / "en_product6.xml")
+        sources.append({
+            "id": "infores:orphanet",
+            "name": "Orphanet (product 6: genes associated with rare diseases)",
+            "urls": orphanet_urls,
+            "version": ver,
+            "version_method": method,
+            "retrieved_at": now,
+        })
+
+    if hgnc_urls:
+        ver, method = version_from_http_last_modified(hgnc_urls[0])
+        sources.append({
+            "id": "infores:hgnc",
+            "name": "HGNC complete set",
+            "urls": hgnc_urls,
+            "version": ver,
+            "version_method": method,
+            "retrieved_at": now,
+        })
 
     if hp_urls:
         ver, method = version_from_http_last_modified(hp_urls[0])

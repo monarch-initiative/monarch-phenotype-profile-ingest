@@ -4,7 +4,7 @@
 PKG := "src"
 
 # Explicitly enumerate transforms (add new ingests here)
-TRANSFORMS := "gene_to_phenotype_transform disease_to_phenotype_transform gene_to_disease_transform disease_mode_of_inheritance_transform"
+TRANSFORMS := "gene_to_phenotype_transform disease_to_phenotype_transform orphanet_gene_to_disease_transform disease_mode_of_inheritance_transform"
 
 # List all commands
 _default:
@@ -20,9 +20,10 @@ install:
 download: install
     uv run downloader download.yaml
 
-# Run preprocessing step
+# Run preprocessing steps (Orphanet product 6 flattening feeds the gene_to_phenotype join, so it runs first)
 [group('ingest')]
 preprocess:
+    uv run python scripts/orphanet_gene_to_disease_extras.py
     uv run python scripts/gene_to_phenotype_extras.py
 
 # Run all transforms
@@ -72,3 +73,4 @@ test-cov: install
 clean:
     rm -rf output/
     rm -f data/genes_to_phenotype_preprocessed.tsv
+    rm -f data/orphanet_gene_to_disease.tsv

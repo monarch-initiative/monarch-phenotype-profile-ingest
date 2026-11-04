@@ -108,3 +108,19 @@ def test_hpoa_sub_sources_returns_empty_when_no_description_header(tmp_path: Pat
     sources = versions._hpoa_sub_sources(p, hpoa_url="http://x", hpoa_version="2026-01-08", now="2026-05-07T00:00:00Z")
 
     assert sources == []
+
+
+def test_orphanet_product6_version_from_jdbor_root(tmp_path: Path):
+    p = tmp_path / "en_product6.xml"
+    p.write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<JDBOR date="2026-06-23 07:57:31" version="1.3.42 / 4.1.8 [2025-03-03]" copyright="Orphanet (c) 2026">\n'
+        "  <Availability>\n"
+        "  </Availability>\n"
+        "</JDBOR>\n"
+    )
+    assert versions._orphanet_product6_version(p) == ("2026-06-23", "file_header")
+
+
+def test_orphanet_product6_version_missing_file(tmp_path: Path):
+    assert versions._orphanet_product6_version(tmp_path / "nope.xml") == ("unknown", "unavailable")
